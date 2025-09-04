@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TravelEase - Bus Booking</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #38e07b;
+            --secondary-color: #2a9e58;
+            --background-color: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent-color: #4ce68c;
+        }
+        body {
+            font-family: 'Spline Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+        .social-icon:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <header class="flex items-center justify-between whitespace-nowrap px-10 py-5">
+                <div class="flex items-center gap-3 text-white">
+                    <div class="size-8 text-[var(--primary-color)]">
+                        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path clip-rule="evenodd"
+                                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                                fill="currentColor" fill-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold">TravelEase</h2>
+                </div>
+                <nav class="flex items-center gap-8">
+                    <a class="text-[var(--primary-color)] font-semibold border-b-2 border-[var(--primary-color)] pb-1"
+                        href="#">Home</a>
+                    <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                        href="routes.html">Routes</a>
+                    <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                        href="my-booking.html">My Booking</a>
+                    <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                        href="#contact">Contact</a>
+                </nav>
+                <div class="flex gap-4">
+                    <a href="signup.html"
+                        class="bg-[var(--primary-color)] text-[var(--background-color)] px-6 py-2 rounded-full font-bold hover:bg-[var(--secondary-color)] transition-colors duration-300">Sign
+                        Up</a>
+                    <a href="login.html"
+                        class="bg-transparent border border-[var(--primary-color)] text-[var(--primary-color)] px-6 py-2 rounded-full font-bold hover:bg-[var(--primary-color)] hover:text-[var(--background-color)] transition-colors duration-300">Login</a>
+                </div>
+            </header>
+            <main class="flex-1">
+                <section class="relative text-white text-center py-40 px-4"
+                    style='background-image: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 1)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuC-X6wQIvOof8z-d338V_uZP0Fr2RPXjNZeH-zjUeiiDek85nybGmUrbF8u_zDUX7BQkWaVZNaP1cFA0QV_EEx6gz-3ttwAsmWoEVIYerKZgQWFviVy1mQs4VvQ39Xo-etaikTVeI4h3QZT8zGXYGP4uVUe1y2EYkfwDPli0kLcjwrx7v6ap0i7lgOK9DflwIi34KUHlzfOXioaj0U0K_Y_XbgeovYa-qOGQWnBP-OtLnjQuPPQHpBtU-l6ePXAbONAcDL3feRrcw"); background-size: cover; background-position: center;'>
+                    <div class="max-w-3xl mx-auto">
+                        <h1 class="text-5xl md:text-6xl font-bold mb-4">Your Journey Starts Here</h1>
+                        <p class="text-lg md:text-xl text-[var(--text-secondary)] mb-8">Find the perfect route and book
+                            your bus ticket with ease. Explore destinations and enjoy comfortable travel.</p>
+                        <form class="max-w-2xl mx-auto bg-white/10 backdrop-blur-sm p-2 rounded-full flex items-center">
+                            <div class="flex-shrink-0 pl-4 pr-2">
+                                <svg class="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            <input
+                                class="flex-grow bg-transparent border-none text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:ring-0 text-lg"
+                                placeholder="Enter your destination" type="text" />
+                            <button
+                                class="bg-[var(--primary-color)] text-[var(--background-color)] px-8 py-3 rounded-full font-bold hover:bg-[var(--secondary-color)] transition-colors duration-300"
+                                type="submit">Search Routes</button>
+                        </form>
+                    </div>
+                </section>
+                <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/50">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-4xl font-bold text-[var(--text-primary)]">How It Works</h2>
+                            <p class="mt-4 text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">Booking your bus
+                                ticket is as easy as 1-2-3. Follow these simple steps to get started.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                            <div class="flex flex-col items-center">
+                                <div
+                                    class="flex items-center justify-center h-20 w-20 rounded-full bg-[var(--primary-color)]/20 mb-6 text-3xl font-bold text-[var(--primary-color)]">
+                                    1</div>
+                                <h3 class="text-xl font-bold mb-2">Search for Routes</h3>
+                                <p class="text-[var(--text-secondary)]">Enter your destination and travel dates to find
+                                    available bus routes.</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div
+                                    class="flex items-center justify-center h-20 w-20 rounded-full bg-[var(--primary-color)]/20 mb-6 text-3xl font-bold text-[var(--primary-color)]">
+                                    2</div>
+                                <h3 class="text-xl font-bold mb-2">Select &amp; Book</h3>
+                                <p class="text-[var(--text-secondary)]">Choose your preferred seat and book your ticket
+                                    using our secure payment gateway.</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div
+                                    class="flex items-center justify-center h-20 w-20 rounded-full bg-[var(--primary-color)]/20 mb-6 text-3xl font-bold text-[var(--primary-color)]">
+                                    3</div>
+                                <h3 class="text-xl font-bold mb-2">Enjoy Your Trip</h3>
+                                <p class="text-[var(--text-secondary)]">Receive your e-ticket, track your bus, and enjoy
+                                    a comfortable journey.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-20 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-4xl font-bold text-[var(--text-primary)]">Popular Routes</h2>
+                            <p class="mt-4 text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">Explore some of our
+                                most traveled routes. Your next adventure is just a click away.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="bg-gray-800/50 rounded-xl overflow-hidden group">
+                                <img alt="Route to Mountain View"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPv8E-RazYW8z6AQcVKo_McUYi5affqIe8dkmrqJqVOipax-NKsHVhEWWhVI8fkb96H31UcOf0jAIx74aeVKdamulpyxuUS5pxVGNIte2zJnrMEiIDXuV9VWNwVdO4Pkz1Iqa5IUcvH1xN3mMysakHzqm5marC_3nKVy3bOCP_X5s9mAWIyOltu2QaCmJdd-qT8ZqB-bsDDhoOA5taO9p8-UgAzpYfw_9D0dZX7N6ltn-9bt4lC93m8gwUvwCRghVCLvep9QEDtA" />
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">City Central to Mountain View</h3>
+                                    <p class="text-[var(--text-secondary)] mb-4">A scenic journey to the serene
+                                        mountains. Perfect for a weekend getaway.</p>
+                                    <a class="font-bold text-[var(--primary-color)] hover:text-[var(--secondary-color)] transition-colors duration-200"
+                                        href="#">Book Now →</a>
+                                </div>
+                            </div>
+                            <div class="bg-gray-800/50 rounded-xl overflow-hidden group">
+                                <img alt="Route to Coastal City"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo611-AECUVG6AkGvDY9TKgQ0dk7HzrHbPto4Sa-X41AWWvO41MP_7Yt9UzFMP4u0UDr8oxu8RgG9tV1nHgNwWYI3A884X7AMhySuS7LapZnL6mfuoQc4CUSOzAMsoVUFunZCxMnPJMrVUSxCqVMI61_7ABDAYx3X1mBQoCPzcsmavKAx2Oz2W9Cqpc1z7p0po3Ld4nG3pek1N7JkgrZC1rWwRHAU3-q8GW3RmOtVmQqkZvFs2gJdN5OX0o4lgleJR1WNvjBNS8w" />
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">Downtown Hub to Coastal City</h3>
+                                    <p class="text-[var(--text-secondary)] mb-4">Enjoy the sun, sand, and sea with our
+                                        direct route to the coast.</p>
+                                    <a class="font-bold text-[var(--primary-color)] hover:text-[var(--secondary-color)] transition-colors duration-200"
+                                        href="#">Book Now →</a>
+                                </div>
+                            </div>
+                            <div class="bg-gray-800/50 rounded-xl overflow-hidden group">
+                                <img alt="Route to Historic Town"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5ahJEF8i4mUfeBgabmOz1yIw_1F4cfZJor284DRNrPY1oAQpPIL1OuaJl1RGAiUPlSTD7RUr83XxinXUga7VnkultvWeKW-3mjnhssAuLbciir0ghgE7JsShBL7PlIAx2ljjTlmebl4-GCfpuNP3hi65YvuQiGHCYuBqs8q2vokRY2yKwgu8z_tYz7DWhHL1FyTYchFgv7mMOWQbpLhi-NXxG2Q6gxx5j7eHfvTS20pSPejfgnH7F4xdRajAttd0XEC6MlCoG_Q" />
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">Metro Station to Historic Town</h3>
+                                    <p class="text-[var(--text-secondary)] mb-4">Travel back in time and explore the
+                                        rich culture of the old town.</p>
+                                    <a class="font-bold text-[var(--primary-color)] hover:text-[var(--secondary-color)] transition-colors duration-200"
+                                        href="#">Book Now →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-20 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-4xl font-bold text-[var(--text-primary)]">What Our Customers Say</h2>
+                            <p class="mt-4 text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">We are proud to have
+                                happy travelers. Here's what they have to say about their experience with TravelEase.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50">
+                                <p class="text-[var(--text-secondary)] mb-6 italic">"The booking process was incredibly
+                                    simple and fast. The bus was clean, comfortable, and arrived on time. Highly
+                                    recommend TravelEase for any trip!"</p>
+                                <div class="flex items-center">
+                                    <img alt="Avatar of Sarah L." class="w-12 h-12 rounded-full mr-4"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw2mo5vKBwGFkzA4nmvzgHxGxFXeXN5fM09_8Uud1go5BuBb8rZXp4beYgSMN7wRvjF-dHsZtDWfjzDGpRjSap3a_yihIGZjtGOQ1_ccNckmm475XABl2IAMqxeyFUulD2geJyo3cMEmten1SvaFUDzn9q4D7KrkP_FZp3nST5T5omPetral11H8ClbyPfYpwVLmme1x3faGX3AUkbPnMYdGtD7WNXggWZ70XXGT-hFRx8h2t5aNutclevzSs1KnWwtR6tQknDbA" />
+                                    <div>
+                                        <h4 class="font-bold text-[var(--text-primary)]">Sarah L.</h4>
+                                        <p class="text-sm text-[var(--text-secondary)]">Frequent Traveler</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50">
+                                <p class="text-[var(--text-secondary)] mb-6 italic">"I loved the real-time tracking
+                                    feature! It gave me peace of mind knowing exactly where the bus was. The app is very
+                                    user-friendly."</p>
+                                <div class="flex items-center">
+                                    <img alt="Avatar of Mark T." class="w-12 h-12 rounded-full mr-4"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdBnNEzByKbgn7FshROMSa30haZeXxO-B1UDnI0fKcw9e3Zc4YbNWKJ_FwXicXxBl_INQIHC_iCekuFQelvRS4eiAyZRZ_rozbMYXF5jFBdFXdOEQJeuJihbpJkI54-dJVfPem1Xyx7s7MdtvWD265YNvmYpUAJOgdSAM5YVE8cslb-2jVN7N4QkVzUeka52pa2bZbUPn082Oe-uMqeJv1DVCgUaYY0LYcP1AmaIZiFkMTCIWkLU0k5CzNIReLbaiJ8t6CRGj6AQ" />
+                                    <div>
+                                        <h4 class="font-bold text-[var(--text-primary)]">Mark T.</h4>
+                                        <p class="text-sm text-[var(--text-secondary)]">Student</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50">
+                                <p class="text-[var(--text-secondary)] mb-6 italic">"Excellent customer service. I had
+                                    to change my booking, and the support team was very helpful and responsive. A truly
+                                    hassle-free experience."</p>
+                                <div class="flex items-center">
+                                    <img alt="Avatar of Jessica P." class="w-12 h-12 rounded-full mr-4"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmFdcnDIaO7OI8YrqSYt2boeGJolCVRhF8jbRcAJxy40SaoC9Bfm9JHWs19PYjrB8gypnocHZA0tPXyPG-D1LZZXG09lO5qaMVYkyOUzYNoi4QrtnNBEr7AoCmXb1a5OyUFTBA6ZQmdTp5EfdUFNyre4Vy8Ze_FTMiJ-RBsGl6kF1PYeLNQ-pjim_z0DjeJojViQBd_6j0uTfN9whP4Ra6C_uhFEgDzWSSf_FiA00T2poTv1TkmPpeWm5DwS26SnffKccTl_5Tww" />
+                                    <div>
+                                        <h4 class="font-bold text-[var(--text-primary)]">Jessica P.</h4>
+                                        <p class="text-sm text-[var(--text-secondary)]">Vacationer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/50" id="contact">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-4xl font-bold text-[var(--text-primary)]">Contact Us</h2>
+                            <p class="mt-4 text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">Have questions? We're
+                                here to help. Reach out to us through any of the channels below.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                            <div class="flex flex-col items-center">
+                                <svg class="h-12 w-12 text-[var(--primary-color)] mb-4" fill="none"
+                                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.211-.998-.552-1.348l-2.43-2.43a2.25 2.25 0 00-3.182 0l-.139.139a.625.625 0 01-.884 0l-4.21-4.21a.625.625 0 010-.884l.139-.139a2.25 2.25 0 000-3.182l-2.43-2.43A2.25 2.25 0 006.722 2.25H5.25A2.25 2.25 0 003 4.5v2.25z"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <h3 class="text-xl font-bold mb-2">Phone</h3>
+                                <p class="text-[var(--text-secondary)]">+1 (234) 567-890</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <svg class="h-12 w-12 text-[var(--primary-color)] mb-4" fill="none"
+                                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <h3 class="text-xl font-bold mb-2">Email</h3>
+                                <p class="text-[var(--text-secondary)]">support@travelease.com</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <svg class="h-12 w-12 text-[var(--primary-color)] mb-4" fill="none"
+                                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 20.25c.966 0 1.898-.166 2.766-.475l-.946-4.256a2.25 2.25 0 00-2.148-1.91H9.012a2.25 2.25 0 00-2.148 1.91L5.918 19.775A8.966 8.966 0 0012 20.25zM12 7.5a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5zM12 3.75a8.966 8.966 0 018.082 12.234l-1.396.279a1.125 1.125 0 01-1.32-.962L16.5 9.75a4.5 4.5 0 10-9 0l-.868 5.031a1.125 1.125 0 01-1.32.962l-1.396-.279A8.966 8.966 0 0112 3.75z"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <h3 class="text-xl font-bold mb-2">Social Media</h3>
+                                <div class="flex space-x-4 mt-2 text-[var(--text-secondary)]">
+                                    <a class="social-icon transition-colors duration-200" href="#"><svg class="w-6 h-6"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.49-1.74.85-2.7 1.03-.78-.84-1.9-1.36-3.13-1.36-2.38 0-4.3 1.92-4.3 4.3 0 .34.04.67.11.98-3.57-.18-6.73-1.89-8.85-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.76 2.81 1.91 3.58-.7-.02-1.36-.21-1.94-.53v.05c0 2.08 1.48 3.82 3.44 4.21-.36.1-.74.15-1.13.15-.28 0-.55-.03-.81-.08.55 1.71 2.13 2.95 4 2.98-1.47 1.15-3.33 1.84-5.35 1.84-.35 0-.69-.02-1.03-.06 1.9 1.23 4.16 1.94 6.58 1.94 7.89 0 12.21-6.54 12.21-12.21 0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.22z">
+                                            </path>
+                                        </svg></a>
+                                    <a class="social-icon transition-colors duration-200" href="#"><svg class="w-6 h-6"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm3.5 8.12c-.22.68-1.45 3.53-1.63 3.82-.18.29-.39.38-.61.38-.2 0-.37-.09-.59-.28-.29-.25-1.04-.68-1.94-1.53-.9-.85-1.67-1.57-1.82-1.77-.14-.2-.28-.38-.13-.61.13-.21.28-.35.41-.47.1-.1.22-.22.31-.3.12-.11.08-.22-.04-.34-.12-.12-.22-.12-.31-.12s-.22 0-.33.04c-.11.04-.25.13-.39.26-.14.13-.25.26-.3.32-.05.06-.11.16-.11.28 0 .12.04.28.13.43.1.16.2.29.22.32s.04.1.04.14l.01.16c-.05.21-.18.42-.38.61s-.41.38-.61.47c-.2.1-.42.16-.61.16s-.44-.07-.63-.22c-.19-.15-.49-.45-.9-.9s-.72-.82-.94-1.12c-.22-.3-.42-.64-.59-1.02s-.25-.79-.25-1.21c0-.5.11-.94.34-1.32.23-.38.56-.68.99-.9.43-.22.9-.33 1.39-.33.35 0 .68.04.98.13s.58.22.84.39.5.39.69.64c.19.25.32.55.39.9.07.35.04.76-.08 1.23z">
+                                            </path>
+                                        </svg></a>
+                                    <a class="social-icon transition-colors duration-200" href="#"><svg class="w-6 h-6"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
+                                            </path>
+                                        </svg></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer class="bg-gray-900/50">
+                <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-center space-x-6 mb-4">
+                        <a class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+                            href="#">Privacy Policy</a>
+                        <a class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+                            href="#">Terms of Service</a>
+                    </div>
+                    <p class="text-center text-[var(--text-secondary)] text-sm">© 2025 TravelEase. All rights reserved.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+</body>
+
+</html>

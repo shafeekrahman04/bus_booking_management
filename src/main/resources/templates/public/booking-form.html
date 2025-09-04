@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>QuickBus - Book Your Trip</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+        :root {
+      --primary-color: #38e07b;
+      --secondary-color: #2a9e58;
+      --background-color: #1a1a1a;
+      --surface-color: #2c2c2c;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --accent-color: #4ce68c;
+      --border-color: #444;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-primary);
+    }
+
+    .form-input {
+      background-color: var(--surface-color);
+      border-color: var(--border-color);
+      transition: all 0.2s ease-in-out;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(56, 224, 123, 0.25);
+    }
+
+    .form-select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a0a0a0' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    }
+
+    .seat {
+      transition: all 0.2s ease-in-out;
+      border-radius: 0.375rem;
+      font-weight: 500;
+    }
+
+    .seat:hover {
+      transform: scale(1.05);
+    }
+
+    .seat-available {
+      background-color: var(--surface-color);
+      color: var(--text-secondary);
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+    }
+
+    .seat-available:hover {
+      background-color: var(--accent-color);
+      color: #fff;
+      border-color: var(--accent-color);
+    }
+
+    .seat-selected {
+      background-color: var(--primary-color);
+      color: #fff;
+      cursor: pointer;
+      border: 1px solid var(--primary-color);
+    }
+
+    .seat-unavailable {
+      background-color: #333;
+      color: #666;
+      cursor: not-allowed;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+    <div class="flex flex-col min-h-screen bg-[var(--background-color)]">
+        <!-- Header -->
+        <header class="flex items-center justify-between whitespace-nowrap px-10 py-5">
+            <div class="flex items-center gap-3 text-white">
+                <div class="size-8 text-[var(--primary-color)]">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd"
+                            d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                            fill="currentColor" fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold">TravelEase</h2>
+            </div>
+            <nav class="flex items-center gap-8">
+                <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                    href="index.html">Home</a>
+                <a class="text-[var(--primary-color)] font-semibold border-b-2 border-[var(--primary-color)] pb-1"
+                    href="routes.html">Routes</a>
+                <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                    href="my-booking.html">My Booking</a>
+                <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                    href="index.html#contact">Contact</a>
+            </nav>
+            <div class="flex gap-4">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCMDI057E7X1ue83MD3O-C0oOKLZMrj92QsSo7Tmg3HCUwnzWbGyhIxBAoWxbcc8Ynrg5uasC6tvh7j6GrHTnAbpBbItd9hwCT2cZoMheTOCJ_QX2J2hOaCWkPtyePfPpuMXbutffGwt0N7dxZtuvdGQakeWETjK2-AyzWkLmFF3QZfJtPhBwIFKEMNV_Xxv13rdtMgQY1FmpzD2fKSLDP0DaDI6WndgoXGuAaCr8R1yIrzivaCa5KuM2o9L13WVPog0zNjLNXtEw");'>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex items-center justify-center py-16 px-4">
+            <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Booking Form -->
+                <div
+                    class="lg:col-span-2 bg-[var(--surface-color)] p-8 rounded-xl shadow-lg border border-[var(--border-color)]">
+                    <h2 class="text-3xl font-bold text-center text-[var(--text-primary)] mb-8">Book Your Trip</h2>
+                    <!-- Keep form same as before but uses var(--colors) -->
+                    <form class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                            <div>
+                                <label class="form_label block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                    for="route">Route</label>
+                                <select
+                                    class="form-select form-input w-full text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none"
+                                    id="route" name="route">
+                                    <option>Select Route</option>
+                                    <option selected="" value="route1">New York to Boston</option>
+                                    <option value="route2">Los Angeles to San Francisco</option>
+                                    <option value="route3">Chicago to Detroit</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        class="form_label block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                        for="date">Date</label>
+                                    <input
+                                        class="form-input w-full text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none"
+                                        id="date" name="date" type="date" value="2024-08-15" />
+                                </div>
+                                <div>
+                                    <label
+                                        class="form_label block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                        for="passengers">Passengers</label>
+                                    <input
+                                        class="form-input w-full text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none"
+                                        id="passengers" min="1" name="passengers" placeholder="1" type="number"
+                                        value="1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Select Your Seat</h3>
+                            <div class="bg-[var(--surface-color)] p-6 rounded-lg border border-[var(--border-color)]">
+                                <div class="grid grid-cols-5 gap-3 max-w-sm mx-auto">
+                                    <div class="seat seat-available text-center p-2">1A</div>
+                                    <div class="seat seat-available text-center p-2">1B</div>
+                                    <div class="col-start-4 seat seat-selected text-center p-2">1C</div>
+                                    <div class="seat seat-unavailable text-center p-2">1D</div>
+                                    <div class="seat seat-available text-center p-2">2A</div>
+                                    <div class="seat seat-unavailable text-center p-2">2B</div>
+                                    <div class="col-start-4 seat seat-available text-center p-2">2C</div>
+                                    <div class="seat seat-available text-center p-2">2D</div>
+                                    <div class="seat seat-available text-center p-2">3A</div>
+                                    <div class="seat seat-available text-center p-2">3B</div>
+                                    <div class="col-start-4 seat seat-available text-center p-2">3C</div>
+                                    <div class="seat seat-available text-center p-2">3D</div>
+                                    <div class="seat seat-unavailable text-center p-2">4A</div>
+                                    <div class="seat seat-available text-center p-2">4B</div>
+                                    <div class="col-start-4 seat seat-available text-center p-2">4C</div>
+                                    <div class="seat seat-available text-center p-2">4D</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center gap-6 mt-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-sm bg-[var(--surface-color)] border border-[var(--border-color)]"></div>
+                                    <span class="text-[var(--text-secondary)]">Available</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-sm bg-[var(--primary-color)]"></div>
+                                    <span class="text-[var(--text-secondary)]">Selected</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-sm bg-[#333] border border-[#333]"></div>
+                                    <span class="text-[var(--text-secondary)]">Unavailable</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Passenger Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label
+                                        class="form_label block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                        for="name">Full Name</label>
+                                    <input
+                                        class="form-input w-full text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none"
+                                        id="name" name="name" placeholder="John Doe" type="text" />
+                                </div>
+                                <div>
+                                    <label
+                                        class="form_label block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                        for="email">Email Address</label>
+                                    <input
+                                        class="form-input w-full text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none"
+                                        id="email" name="email" placeholder="john.doe@example.com" type="email" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Booking Summary -->
+                <div
+                    class="bg-[var(--surface-color)] p-8 rounded-xl shadow-lg border border-[var(--border-color)] h-fit sticky top-28">
+                    <h3
+                        class="text-2xl font-bold text-[var(--text-primary)] mb-6 border-b border-[var(--border-color)] pb-4">
+                        Booking Summary</h3>
+                    <div class="space-y-4 text-base">
+                        <div class="flex justify-between">
+                            <span class="text-[var(--text-secondary)]">Route:</span>
+                            <span class="font-medium text-[var(--text-primary)]">New York to Boston</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[var(--text-secondary)]">Date:</span>
+                            <span class="font-medium text-[var(--text-primary)]">August 15, 2024</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[var(--text-secondary)]">Time:</span>
+                            <span class="font-medium text-[var(--text-primary)]">08:30 AM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[var(--text-secondary)]">Passengers:</span>
+                            <span class="font-medium text-[var(--text-primary)]">1</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[var(--text-secondary)]">Seats:</span>
+                            <span class="font-medium text-[var(--text-primary)]">1C</span>
+                        </div>
+                        <div class="border-t border-[var(--border-color)] my-6"></div>
+                        <div class="flex justify-between items-center text-lg">
+                            <span class="font-bold text-[var(--text-primary)]">Total Cost:</span>
+                            <span class="font-bold text-[var(--primary-color)] text-2xl">$45.00</span>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full mt-8 bg-[var(--primary-color)] text-black py-3 px-4 rounded-lg hover:bg-[var(--secondary-color)] focus:outline-none focus:ring-4 focus:ring-[var(--accent-color)] transition-all duration-300 font-bold text-lg transform hover:scale-105">
+                        Confirm &amp; Book
+                    </button>
+                </div>
+            </div>
+        </main>
+         <footer class="bg-gray-900 text-[var(--text-secondary)] mt-auto">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
+                <p>© 2025 TravelEase. All rights reserved.</p>
+            </div>
+        </footer>   
+    </div>
+</body>
+
+</html>

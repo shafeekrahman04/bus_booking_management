@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Booking Confirmation</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+        :root {
+      --primary-color: #38e07b;
+      --secondary-color: #1a4d2e;
+      --background-color: #1a1a1a;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --accent-color: #287a4a;
+    }
+    body {
+      font-family: 'Spline Sans', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+
+<body class="dark">
+    <div class="relative flex min-h-screen flex-col bg-[var(--background-color)] group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <header class="flex items-center justify-between whitespace-nowrap px-10 py-5">
+                <div class="flex items-center gap-3 text-white">
+                    <div class="size-8 text-[var(--primary-color)]">
+                        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path clip-rule="evenodd"
+                                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                                fill="currentColor" fill-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold">TravelEase</h2>
+                </div>
+                <nav class="flex items-center gap-8">
+                    <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                        href="index.html">Home</a>
+                    <a class="text-[var(--primary-color)] font-semibold border-b-2 border-[var(--primary-color)] pb-1"
+                        href="routes.html">Routes</a>
+                    <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                        href="my-booking.html">My Booking</a>
+                    <a class="text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors duration-200"
+                        href="index.html#contact">Contact</a>
+                </nav>
+                <div class="flex gap-4">
+                    <a href="signup.html"
+                        class="bg-[var(--primary-color)] text-[var(--background-color)] px-6 py-2 rounded-full font-bold hover:bg-[var(--secondary-color)] transition-colors duration-300">Sign
+                        Up</a>
+                    <a href="login.html"
+                        class="bg-transparent border border-[var(--primary-color)] text-[var(--primary-color)] px-6 py-2 rounded-full font-bold hover:bg-[var(--primary-color)] hover:text-[var(--background-color)] transition-colors duration-300">Login</a>
+                </div>
+            </header>
+            <main class="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div class="w-full max-w-2xl">
+                    <div
+                        class="bg-[var(--secondary-color)] shadow-lg rounded-2xl border border-[var(--accent-color)] p-8 text-center">
+                        <div class="flex justify-center mb-6">
+                            <svg class="h-16 w-16 text-[var(--primary-color)]" fill="none" stroke="currentColor"
+                                stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-[var(--primary-color)] mb-2">Booking Confirmed!</h2>
+                        <p class="text-base text-[var(--text-secondary)] leading-relaxed mb-8">
+                            Your booking has been successfully processed. You can find the details below.
+                        </p>
+                        <div class="bg-[var(--background-color)] rounded-xl p-6 text-left">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+                                <div class="border-b border-[var(--accent-color)] pb-4 sm:border-none sm:pb-0">
+                                    <p class="text-sm font-medium text-[var(--text-secondary)]">Booking ID</p>
+                                    <p class="text-base font-semibold text-[var(--text-primary)]">#1234567890</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-[var(--text-secondary)]">Route</p>
+                                    <p class="text-base font-semibold text-[var(--text-primary)]">New York to Boston</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-[var(--text-secondary)]">Date</p>
+                                    <p class="text-base font-semibold text-[var(--text-primary)]">July 26, 2024</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-[var(--text-secondary)]">Time</p>
+                                    <p class="text-base font-semibold text-[var(--text-primary)]">10:00 AM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-[var(--text-secondary)]">Passenger</p>
+                                    <p class="text-base font-semibold text-[var(--text-primary)]">Sarah Miller</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-[var(--text-secondary)]">Seat</p>
+                                    <p class="text-base font-semibold text-[var(--text-primary)]">A12</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                            <button
+                                class="flex items-center justify-center w-full sm:w-auto px-6 py-3 bg-[var(--primary-color)] text-[var(--background-color)] text-sm font-bold rounded-lg hover:bg-opacity-90 transition-colors duration-200">
+                                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 00-2-2H5z"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                View Ticket
+                            </button>
+                            <button
+                                class="flex items-center justify-center w-full sm:w-auto px-6 py-3 bg-transparent border border-[var(--primary-color)] text-[var(--primary-color)] text-sm font-bold rounded-lg hover:bg-[var(--primary-color)] hover:text-[var(--background-color)] transition-colors duration-200">
+                                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                Add to Calendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+
+</html>
