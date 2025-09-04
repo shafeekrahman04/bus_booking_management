@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8" />
@@ -70,13 +70,13 @@
         </div>
         <nav class="hidden items-center gap-8 md:flex">
           <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            href="index.html">Home</a>
+             th:href="@{/v1/home}">Home</a>
           <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            href="#">About</a>
+             th:href="@{/v1/routes}">Routes</a>
           <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            href="#">Contact</a>
+             th:href="@{/v1/home#contact}">Contact</a>
           <a class="rounded-full bg-gray-800 px-5 py-2.5 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:bg-gray-700"
-            href="signup.html">Sign Up</a>
+             th:href="@{/v1/signup}">Sign Up</a>
         </nav>
         <button class="md:hidden">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -112,7 +112,7 @@
           <div class="mt-6 text-center">
             <p class="text-sm text-[var(--text-secondary)]">
               Don’t have an account?
-              <a href="signup.html" class="text-[var(--primary-color)] font-medium hover:underline">Sign up</a>
+              <a th:href="@{/v1/signup}" class="text-[var(--primary-color)] font-medium hover:underline">Sign up</a>
             </p>
           </div>
 

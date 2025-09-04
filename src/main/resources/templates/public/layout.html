@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">
+    TravelEase -
+  </title>
+  <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+  <style type="text/tailwindcss">
+        :root {
+            --primary-color: #38e07b;
+            --secondary-color: #2a9e58;
+            --background-color: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent-color: #4ce68c;
+        }
+        body {
+            font-family: 'Spline Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+        .social-icon:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+<div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+  <div class="layout-container flex h-full grow flex-col">
+    <th:block  th:replace="~{public/shared/header :: header}">
+      Main Menu
+    </th:block>
+    <th:block layout:fragment="content">
+      No Content
+    </th:block>
+
+    <footer class="bg-gray-900/50">
+      <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+             href="#">Privacy Policy</a>
+          <a class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+             href="#">Terms of Service</a>
+        </div>
+        <p class="text-center text-[var(--text-secondary)] text-sm">© 2025 TravelEase. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+</body>
+
+</html>

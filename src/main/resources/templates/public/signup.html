@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
@@ -47,13 +47,13 @@
                 </div>
                 <nav class="hidden items-center gap-8 md:flex">
                     <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                        href="index.html">Home</a>
+                       th:href="@{/v1/home}">Home</a>
                     <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                        href="#">About</a>
+                       th:href="@{/v1/routes}">Routes</a>
                     <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                        href="#">Contact</a>
+                       th:href="@{/v1/home#contact}">Contact</a>
                     <a class="rounded-full bg-gray-800 px-5 py-2.5 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:bg-gray-700"
-                        href="login.html">Login</a>
+                       th:href="@{/v1/login}">Login</a>
                 </nav>
                 <button class="md:hidden">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -111,7 +111,7 @@
                     <p class="mt-6 text-center text-sm text-[var(--text-secondary)]">
                         Already have an account?
                         <a class="font-medium text-[var(--primary-color)] hover:text-[var(--secondary-color)]"
-                            href="login.html">
+                           th:href="@{/v1/login}">
                             Login </a>
                     </p>
                 </form>
