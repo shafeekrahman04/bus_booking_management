@@ -88,4 +88,10 @@ public class RouteController {
         }
         return "redirect:/admin/routes/edit/" + routesForm.getId();
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteRoutes(@PathVariable String id) {
+        Routes routes = routesService.deleteRoute(Long.valueOf(id));
+        return "redirect:/admin/routes";
+    }
 }

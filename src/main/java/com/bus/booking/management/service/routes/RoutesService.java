@@ -1,5 +1,6 @@
 package com.bus.booking.management.service.routes;
 
+import com.bus.booking.management.model.Bus;
 import com.bus.booking.management.model.Routes;
 
 import java.util.List;
@@ -13,4 +14,7 @@ public interface RoutesService {
     public Optional<Routes> getRoutesById(Long id);
 
     public Routes updateRoutes(Routes routes);
+
+    public Routes deleteRoute(Long id);
+
 }

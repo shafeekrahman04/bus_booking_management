@@ -1,8 +1,10 @@
 package com.bus.booking.management.service.routes;
 
 import com.bus.booking.management.dao.RoutesRepository;
+import com.bus.booking.management.model.Bus;
 import com.bus.booking.management.model.Routes;
 import com.bus.booking.management.reftype.YNStatus;
+import com.bus.booking.management.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,4 +38,18 @@ public class RoutesServiceImpl implements RoutesService {
     public Routes updateRoutes(Routes routes) {
         return routesRepository.save(routes);
     }
+
+    @Override
+    public Routes deleteRoute(Long id) {
+        Optional<Routes> routesOptional = routesRepository.findById(id);
+        if (routesOptional.isPresent()) {
+            Routes routes = routesOptional.get();
+            routes.setUpdatedBy(StringUtils.user);
+            routes.setUpdatedOn(StringUtils.now);
+            routes.setDeleted(YNStatus.YES.getStatus());
+            return routes;
+        }
+        return null;
+    }
+
 }

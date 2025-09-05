@@ -63,8 +63,10 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
                         <a th:href="@{'/admin/routes/edit/' + ${route.id}}"
                            class="text-blue-400 hover:text-blue-300">Edit</a>
-                        <a th:href="@{'/admin/routes/delete/' + ${route.id}}"
-                           class="text-red-400 hover:text-red-300 btn-delete">Delete</a>
+                        <a href="javascript:void(0);" th:attr="data-id=${route.id}"
+                           class="text-red-400 hover:text-red-300 delete-bus">
+                            Delete
+                        </a>
                     </td>
                 </tr>
                 </tbody>
@@ -74,5 +76,49 @@
     </main>
 </th:block>
 <th:block layout:fragment="page-script">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteLinks = document.querySelectorAll(".delete-bus");
+
+            deleteLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    const routeId = this.getAttribute("data-id");
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won’t be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "No, cancel"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/admin/routes/delete/${routeId}`, { method: "GET" })
+                                .then(response => {
+                                    if (response.ok) {
+                                        Swal.fire(
+                                            "Deleted!",
+                                            "Routes has been deleted successfully.",
+                                            "success"
+                                        ).then(() => {
+                                            // reload page after success
+                                            window.location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire("Error!", "Failed to delete routes.", "error");
+                                    }
+                                })
+                                .catch(() => {
+                                    Swal.fire("Error!", "Something went wrong.", "error");
+                                });
+                        }
+                    });
+                });
+            });
+        });
+
+    </script>
 </th:block>
 </html>
