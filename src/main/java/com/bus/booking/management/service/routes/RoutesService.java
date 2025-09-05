@@ -7,4 +7,6 @@ import java.util.List;
 public interface RoutesService {
     public List<Routes> listAllRoutes();
 
+    Routes saveRoutes(Routes routes);
+
 }

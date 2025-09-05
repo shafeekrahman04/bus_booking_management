@@ -20,4 +20,9 @@ public class RoutesServiceImpl implements RoutesService {
     public List<Routes> listAllRoutes() {
         return routesRepository.findAllByDeleted(YNStatus.NO.getStatus());
     }
+
+    @Override
+    public Routes saveRoutes(Routes routes) {
+        return routesRepository.save(routes);
+    }
 }

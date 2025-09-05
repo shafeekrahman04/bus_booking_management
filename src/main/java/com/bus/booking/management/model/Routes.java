@@ -24,7 +24,7 @@ public class Routes {
     private Long id;
 
     @Column(name = "BUS_ID")
-    private String busId;
+    private Long busId;
 
     @Column(name = "PRICE_PER_SEAT")
     private BigDecimal pricePerSeat;
