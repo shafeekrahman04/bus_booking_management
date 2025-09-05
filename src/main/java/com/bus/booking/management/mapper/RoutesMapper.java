@@ -58,6 +58,21 @@ public class RoutesMapper {
         return route;
     }
 
+    public Routes map(RoutesForm routesForm, Routes route) {
+        route.setBusId(Long.valueOf(routesForm.getBusId()));
+        route.setPricePerSeat(new BigDecimal(routesForm.getPricePerSeat()));
+        route.setOrigin(routesForm.getOrigin());
+        route.setDestination(routesForm.getDestination());
+        route.setDistance(routesForm.getDistance());
+        route.setDate(LocalDate.parse(routesForm.getDate()));
+        route.setPickupTime(LocalTime.parse(routesForm.getPickupTime()));
+        route.setDropTime(LocalTime.parse(routesForm.getDropTime()));
+        route.setDeleted(YNStatus.NO.getStatus());
+        route.setUpdatedBy(StringUtils.user);
+        route.setUpdatedOn(StringUtils.now);
+        return route;
+    }
+
 
 }
 

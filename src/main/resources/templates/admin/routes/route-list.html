@@ -61,9 +61,9 @@
                         th:text="${route.dropTime}">01:00 PM
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
-                        <a th:href="@{'/admin/route/edit/' + ${route.id}}"
+                        <a th:href="@{'/admin/routes/edit/' + ${route.id}}"
                            class="text-blue-400 hover:text-blue-300">Edit</a>
-                        <a th:href="@{'/admin/route/delete/' + ${route.id}}"
+                        <a th:href="@{'/admin/routes/delete/' + ${route.id}}"
                            class="text-red-400 hover:text-red-300 btn-delete">Delete</a>
                     </td>
                 </tr>
