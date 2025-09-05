@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{admin/layout}"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='buses'">
+
+<head>
+    <title>Bus List </title>
+</head>
+<th:block layout:fragment="content">
+
+    <main class="flex-1 p-8">
+        <header class="mb-8 flex justify-between items-center">
+            <h1 class="text-4xl font-bold text-white">Bus List</h1>
+            <a th:href="@{/admin/bus/add}"
+                class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary-color)] text-black font-semibold hover:bg-[var(--secondary-color)] transition-colors">
+                <svg fill="currentColor" height="20px" width="20px" viewBox="0 0 256 256">
+                    <path
+                        d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z" />
+                </svg>
+                <span>Add New Bus</span>
+            </a>
+        </header>
+
+        <!-- Search -->
+        <div class="mb-4">
+            <input
+                class="w-full bg-gray-800 border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]"
+                placeholder="Search buses..." type="text" />
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive bg-gray-800 rounded-xl border border-gray-700">
+            <table class="w-full text-left">
+                <thead class="bg-gray-900">
+                    <tr>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Model</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Bus Number</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Bus Type</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Capacity</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700">
+                    <tr th:each="bus : ${bus}">
+                        <td class="px-6 py-4 text-sm text-[var(--text-secondary)]" th:text="${bus.busName}"></td>
+                        <td class="px-6 py-4 text-sm text-white" th:text="${bus.busNumber}"></td>
+                        <td class="px-6 py-4 text-sm text-white" th:text="${bus.busType}"></td>
+                        <td class="px-6 py-4 text-sm text-[var(--text-secondary)]" th:text="${bus.capacity}"></td>
+                        <td class="px-6 py-4 text-sm space-x-2">
+                            <a th:href="@{'/admin/bus/edit/' + ${bus.id}}"
+                                class="text-blue-400 hover:text-blue-300">Edit</a>
+                            <a href="javascript:void(0);" th:attr="data-id=${bus.id}"
+                                class="text-red-400 hover:text-red-300 delete-bus">
+                                Delete
+                            </a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</th:block>
+<th:block layout:fragment="page-script">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteLinks = document.querySelectorAll(".delete-bus");
+
+            deleteLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    const busId = this.getAttribute("data-id");
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won’t be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "No, cancel"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/admin/bus/delete/${busId}`, { method: "GET" })
+                                .then(response => {
+                                    if (response.ok) {
+                                        Swal.fire(
+                                            "Deleted!",
+                                            "Bus has been deleted successfully.",
+                                            "success"
+                                        ).then(() => {
+                                            // reload page after success
+                                            window.location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire("Error!", "Failed to delete bus.", "error");
+                                    }
+                                })
+                                .catch(() => {
+                                    Swal.fire("Error!", "Something went wrong.", "error");
+                                });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</th:block>
+
+</html>

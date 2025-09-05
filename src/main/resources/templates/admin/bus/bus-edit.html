@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{admin/layout}"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='buses'">
+
+<head>
+    <title>Bus Edit </title>
+</head>
+<th:block layout:fragment="content">
+
+    <main class="flex flex-1 justify-center py-10 px-4 sm:px-6 lg:px-8">
+        <div class="w-full max-w-lg">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-[var(--text-primary)] tracking-tight">Edit a Bus</h1>
+                <p class="text-base text-[var(--text-secondary)] mt-2">Enter the details below to add a new bus to the
+                    fleet.</p>
+            </div>
+            <div th:if="${successMessage}"
+                 class="mb-4 p-4 text-green-800 rounded-lg bg-green-100 border border-green-300">
+                <p th:text="${successMessage}"></p>
+            </div>
+
+            <div th:if="${errorMessage}" class="mb-4 p-4 text-red-800 rounded-lg bg-red-100 border border-red-300">
+                <p th:text="${errorMessage}"></p>
+            </div>
+            <div class="bg-gray-800/50 p-8 rounded-xl border border-gray-700">
+                <form th:action="@{/admin/bus/update}" th:object="${busForm}" method="post" class="space-y-6"
+                    id="busForm">
+
+                    <div>
+                        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="busNumber">Bus
+                            Number</label>
+                        <input type="hidden" th:field="*{id}" />
+
+                        <input th:field="*{busNumber}"
+                            class="block w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition"
+                            id="busNumber" placeholder="e.g., SB-5678" type="text" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="busModel">Bus
+                            Model</label>
+                        <input th:field="*{busName}"
+                            class="block w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition"
+                            id="busModel" placeholder="e.g., Scania Metrolink" type="text" />
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                for="capacity">Capacity</label>
+                            <input th:field="*{capacity}"
+                                class="block w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition"
+                                id="capacity" placeholder="e.g., 42" type="number" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                for="busType">Status</label>
+                            <select th:field="*{busType}"
+                                class="block w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition appearance-none"
+                                id="busType">
+                                <option value="">-- Select --</option>
+                                <option value="AC">AC</option>
+                                <option value="Non-AC">Non-AC</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button
+                            class="w-full bg-[var(--primary-color)] text-black px-6 py-3.5 rounded-lg font-bold text-base hover:bg-[var(--accent-color)] focus:outline-none focus:ring-4 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition-all duration-300"
+                            type="submit">
+                            Update Bus
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </main>
+</th:block>
+<th:block layout:fragment="page-script">
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('busForm');
+
+            form.addEventListener('submit', function (event) {
+                clearErrorMessages();
+                validateField('busNumber', 'Please enter bus number', event);
+                validateField('busModel', 'Please enter bus model', event);
+                validateField('capacity', 'Please enter capacity', event);
+                validateField('busType', 'Please select bus type', event);
+            });
+
+            function clearErrorMessages() {
+                document.querySelectorAll('.error-message').forEach(function (error) {
+                    error.remove();
+                });
+            }
+
+            function appendErrorMessage(fieldId, errorMessage, event) {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    const errorMessageElement = document.createElement('p');
+                    errorMessageElement.className = 'error-message text-red-500 text-sm mt-1';
+                    errorMessageElement.textContent = errorMessage;
+                    field.insertAdjacentElement('afterend', errorMessageElement);
+                }
+                event.preventDefault();
+            }
+
+            function validateField(fieldId, errorMessage, event) {
+                const fieldValue = document.getElementById(fieldId).value.trim();
+                if (fieldValue === '') {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                }
+            }
+
+            document.querySelectorAll('input, textarea, select').forEach(function (element) {
+                element.addEventListener('change', function () {
+                    const errorMessages = this.parentNode.querySelectorAll('.error-message');
+                    errorMessages.forEach(function (error) {
+                        error.remove();
+                    });
+                });
+            });
+        });
+    </script>
+
+</th:block>
+
+</html>
