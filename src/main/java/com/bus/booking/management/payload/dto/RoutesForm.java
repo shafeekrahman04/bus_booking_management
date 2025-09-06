@@ -10,6 +10,7 @@ import lombok.*;
 public class RoutesForm {
     private String id;
     private String busId;
+    private String busNumber;
     private String pricePerSeat;
     private String origin;
     private String destination;

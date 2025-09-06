@@ -1,9 +1,12 @@
 package com.bus.booking.management.mapper;
 
+import com.bus.booking.management.dao.BusRepository;
+import com.bus.booking.management.model.Bus;
 import com.bus.booking.management.model.Routes;
 import com.bus.booking.management.payload.dto.RoutesForm;
 import com.bus.booking.management.reftype.YNStatus;
 import com.bus.booking.management.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +20,17 @@ import java.util.List;
 @Qualifier("RouteMapper")
 public class RoutesMapper {
 
+    @Autowired
+    private BusRepository busRepository;
+
     // Convert Entity -> DTO
     public RoutesForm remap(Routes route) {
         RoutesForm routesForm = new RoutesForm();
         routesForm.setId(String.valueOf(route.getId()));
-        routesForm.setBusId(String.valueOf(route.getBusId()));
+        if (route.getBus() != null) {
+            routesForm.setBusId(String.valueOf(route.getBus().getId()));
+            routesForm.setBusNumber(route.getBus().getBusNumber());
+        }
         routesForm.setPricePerSeat(route.getPricePerSeat() != null ? route.getPricePerSeat().toString() : null);
         routesForm.setOrigin(route.getOrigin());
         routesForm.setDestination(route.getDestination());
@@ -44,7 +53,11 @@ public class RoutesMapper {
 
     public Routes map(RoutesForm routesForm) {
         Routes route = new Routes();
-        route.setBusId(routesForm.getBusId() != null ? Long.valueOf(routesForm.getBusId()) : null);
+        if (routesForm.getBusId() != null) {
+            Bus bus = busRepository.findById(Long.valueOf(routesForm.getBusId()))
+                    .orElse(null);
+            route.setBus(bus);
+        }
         route.setPricePerSeat(routesForm.getPricePerSeat() != null ? new BigDecimal(routesForm.getPricePerSeat()) : null);
         route.setOrigin(routesForm.getOrigin());
         route.setDestination(routesForm.getDestination());
@@ -59,7 +72,11 @@ public class RoutesMapper {
     }
 
     public Routes map(RoutesForm routesForm, Routes route) {
-        route.setBusId(Long.valueOf(routesForm.getBusId()));
+        if (routesForm.getBusId() != null) {
+            Bus bus = busRepository.findById(Long.valueOf(routesForm.getBusId()))
+                    .orElse(null);
+            route.setBus(bus);
+        }
         route.setPricePerSeat(new BigDecimal(routesForm.getPricePerSeat()));
         route.setOrigin(routesForm.getOrigin());
         route.setDestination(routesForm.getDestination());

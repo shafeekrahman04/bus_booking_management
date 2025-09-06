@@ -23,8 +23,9 @@ public class Routes {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "BUS_ID")
-    private Long busId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BUS_ID", referencedColumnName = "ID")
+    private Bus bus;
 
     @Column(name = "PRICE_PER_SEAT")
     private BigDecimal pricePerSeat;
