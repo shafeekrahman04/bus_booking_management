@@ -1,0 +1,57 @@
+package com.bus.booking.management.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "booking")
+public class Bookings {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    private AppUser user;
+    @Column(name = "USER_ID")
+    private Long userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ROUTE_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    private Routes route;
+    @Column(name = "ROUTE_ID")
+    private Long routeId;
+
+    @Column(name = "TOTAL_PRICE")
+    private BigDecimal totalPrice;
+
+    @Column(name = "BOOKING_DATE")
+    private LocalDate bookingDate;
+
+    @Column(name = "STATUS")
+    private String status;
+    @Column(name = "DELETED")
+    private String deleted;
+
+    @Column(name = "CREATED_BY")
+    private String createdBy;
+
+    @Column(name = "CREATED_ON")
+    private LocalDateTime createdOn;
+
+    @Column(name = "UPDATED_BY")
+    private String updatedBy;
+    @Column(name = "UPDATED_ON")
+    private LocalDateTime updatedOn;
+}

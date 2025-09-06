@@ -25,8 +25,4 @@ public class AdminAppController {
         return ADMIN_PATH + "bus-list";
     }
 
-    @GetMapping("/bookings")
-    public String bookingList() {
-        return ADMIN_PATH + "booking-list";
-    }
 }
