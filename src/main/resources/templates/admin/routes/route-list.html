@@ -31,7 +31,9 @@
                     <th class="px-6 py-4 text-sm font-semibold text-white cursor-pointer">Route ID
                         <span class="ml-1">↕️</span>
                     </th>
-                    <th class="px-6 py-4 text-sm font-semibold text-white cursor-pointer">Origin
+                    <th class="px-6 py-4 text-sm font-semibold text-white cursor-pointer">Date
+                        <span class="ml-1">↕️</span>
+                    </th><th class="px-6 py-4 text-sm font-semibold text-white cursor-pointer">Origin
                         <span class="ml-1">↕️</span>
                     </th>
                     <th class="px-6 py-4 text-sm font-semibold text-white cursor-pointer">
@@ -47,6 +49,8 @@
                 <tr th:each="route : ${route}">
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-white"
                         th:text="${'RT-' + route.id}">RT-101
+                    </td><td class="px-6 py-4 whitespace-nowrap text-sm text-white"
+                        th:text="${route.date}">
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
                         th:text="${route.origin}">City A
