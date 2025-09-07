@@ -1,4 +1,4 @@
-package com.bus.booking.management.controller.app.admin;
+package com.bus.booking.management.controller.admin;
 
 import com.bus.booking.management.payload.response.DashboardResponse;
 import com.bus.booking.management.service.dashboard.DashboardService;

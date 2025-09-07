@@ -1,4 +1,4 @@
-package com.bus.booking.management.controller.app;
+package com.bus.booking.management.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
