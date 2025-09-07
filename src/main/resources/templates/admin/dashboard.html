@@ -13,15 +13,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
                 <p class="text-[var(--text-secondary)] text-base font-medium">Total Bookings</p>
-                <p class="text-white text-3xl font-bold">1,234</p>
+                <p class="text-white text-3xl font-bold" th:text="${dashboard.totalBookings}">0</p>
             </div>
             <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
                 <p class="text-[var(--text-secondary)] text-base font-medium">Active Routes</p>
-                <p class="text-white text-3xl font-bold">56</p>
+                <p class="text-white text-3xl font-bold" th:text="${dashboard.activeRoutes}">0</p>
             </div>
             <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
                 <p class="text-[var(--text-secondary)] text-base font-medium">New Users</p>
-                <p class="text-white text-3xl font-bold">789</p>
+                <p class="text-white text-3xl font-bold" th:text="${dashboard.newUsers}">0</p>
             </div>
         </div>
         <h2 class="text-2xl font-bold text-white mb-4">Recent Bookings</h2>
@@ -37,79 +37,27 @@
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-700">
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-white">BK12345</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Route A
-                        to B
+                <tr th:each="booking : ${dashboard.recentBookings}">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-white"
+                        th:text="${booking.bookingId}">BKXXXXX
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">User 1
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
+                        th:text="${booking.route}">Route X
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">
-                        2024-07-26
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
+                        th:text="${booking.user}">User X
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span
-                                                class="px-3 py-1 text-xs font-semibold leading-5 rounded-full bg-green-500 text-green-100">Confirmed</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-white">BK12346</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Route C
-                        to D
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">User 2
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">
-                        2024-07-25
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
+                        th:text="${booking.date}">2024-01-01
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span
-                                                class="px-3 py-1 text-xs font-semibold leading-5 rounded-full bg-yellow-500 text-yellow-100">Pending</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-white">BK12347</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Route E
-                        to F
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">User 3
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">
-                        2024-07-24
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span
-                                                class="px-3 py-1 text-xs font-semibold leading-5 rounded-full bg-green-500 text-green-100">Confirmed</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-white">BK12348</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Route G
-                        to H
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">User 4
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">
-                        2024-07-23
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span
-                                                class="px-3 py-1 text-xs font-semibold leading-5 rounded-full bg-red-500 text-red-100">Cancelled</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-white">BK12349</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Route I
-                        to J
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">User 5
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">
-                        2024-07-22
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span
-                                                class="px-3 py-1 text-xs font-semibold leading-5 rounded-full bg-green-500 text-green-100">Confirmed</span>
+                <span th:classappend="${booking.status == 'Confirmed'} ? 'bg-green-500 text-green-100' :
+                                       (booking.status == 'Pending' ? 'bg-yellow-500 text-yellow-100' :
+                                       (booking.status == 'Cancelled' ? 'bg-red-500 text-red-100' : ''))"
+                      class="px-3 py-1 text-xs font-semibold leading-5 rounded-full"
+                      th:text="${booking.status}">
+                    Status
+                </span>
                     </td>
                 </tr>
                 </tbody>

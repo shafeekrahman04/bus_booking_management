@@ -18,5 +18,6 @@ public class RoutesForm {
     private String date;
     private String pickupTime;
     private String dropTime;
+    private String status;
 
 }

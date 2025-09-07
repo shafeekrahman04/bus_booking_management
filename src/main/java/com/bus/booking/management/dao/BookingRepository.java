@@ -11,4 +11,6 @@ public interface BookingRepository extends JpaRepository<Bookings, Long> {
 
     List<Bookings> findAllByDeleted(String deleted);
 
+    List<Bookings> findTop5ByOrderByBookingDateDesc();
+
 }

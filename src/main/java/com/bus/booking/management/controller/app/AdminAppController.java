@@ -15,10 +15,6 @@ public class AdminAppController {
         return ADMIN_PATH + "login";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return ADMIN_PATH + "dashboard";
-    }
 
     @GetMapping("/buses")
     public String busList() {

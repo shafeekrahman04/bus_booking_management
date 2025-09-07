@@ -48,6 +48,9 @@ public class Routes {
     @Column(name = "DROP_TIME")
     private LocalTime dropTime;
 
+    @Column(name = "STATUS")
+    private String status;
+
     @Column(name = "DELETED")
     private String deleted;
 

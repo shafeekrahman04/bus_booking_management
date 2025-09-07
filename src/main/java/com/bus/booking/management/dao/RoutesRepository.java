@@ -10,4 +10,6 @@ import java.util.List;
 public interface RoutesRepository extends JpaRepository<Routes, Long> {
     List<Routes> findAllByDeleted(String deleted);
 
+    long countByStatus(String status);
+
 }
