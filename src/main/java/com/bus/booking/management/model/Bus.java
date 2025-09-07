@@ -1,6 +1,6 @@
 package com.bus.booking.management.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
@@ -81,13 +81,12 @@
                             <h2 class="text-3xl font-bold text-[var(--text-primary)]">Welcome Back</h2>
                             <p class="text-[var(--text-secondary)] mt-2">Log in to continue your journey.</p>
                         </div>
-                        <form class="space-y-6">
+                        <form th:action="@{/login}" method="post" class="space-y-6">
                             <div>
                                 <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2"
-                                    for="email">Username or
-                                    Email</label>
-                                <input class="form-input w-full" id="email" placeholder="you@example.com"
-                                    type="email" />
+                                    for="username">Username</label>
+                                <input class="form-input w-full" id="username" name="username"  placeholder="you@example.com"
+                                    type="text" />
                             </div>
                             <div>
                                 <div class="flex items-center justify-between mb-2">
@@ -96,9 +95,13 @@
                                     <a class="text-sm text-[var(--primary-color)] hover:underline" href="#">Forgot
                                         password?</a>
                                 </div>
-                                <input class="form-input w-full" id="password" placeholder="••••••••" type="password" />
+                                <input class="form-input w-full" id="password" name="password" placeholder="••••••••" type="password" />
                             </div>
                             <button class="btn-primary w-full" type="submit">Log In</button>
+                            <div th:if="${param.error}" class="alert-danger text-center mt-1" role="alert">
+                                <h5 style="font-family: Arial, sans-serif; color: #ec1616; background-color: #ffffff;">
+                                    <i class=" la la-exclamation-triangle" style="margin-right: 8px;">Invalid Username or password.</i></h5>
+                            </div>
                         </form>
                     </div>
                 </div>
