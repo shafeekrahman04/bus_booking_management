@@ -1,149 +1,233 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{public/layout}"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='routes'">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='routes'">
+
 <head>
     <title>TravelEase - Bus Booking</title>
 </head>
 
 <th:block layout:fragment="content">
-    <main class="flex-1 flex items-center justify-center py-16 px-4">
-        <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <!-- Booking Form -->
+    <main class="flex-1 flex items-center justify-center py-12 px-4">
+        <div class="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div
-                    class="lg:col-span-2 bg-[var(--surface-color)] p-8 rounded-xl shadow-lg border border-[var(--border-color)]">
+                class="lg:col-span-2 bg-[var(--surface-color)] p-8 rounded-2xl shadow-2xl border border-[var(--border-color)]">
                 <h2 class="text-3xl font-bold text-center text-[var(--text-primary)] mb-8">Book Your Trip</h2>
-                <!-- Keep form same as before but uses var(--colors) -->
-                <form th:action="@{/v1/save-booking}" method="post" class="space-y-8">
-                    <input type="hidden" name="routeId" th:value="${route.id}"/>
+                <form th:action="@{/v1/save-booking}" method="post" class="space-y-6">
+                    <input type="hidden" name="routeId" th:value="${route.id}" />
 
-                    <!-- Route dropdown is not needed, show details instead -->
+                    <!-- Route Info -->
                     <div class="p-4 bg-gray-700 rounded-lg mb-6">
-                        <p class="text-lg font-semibold"
-                           th:text="${route.origin} + ' → ' + ${route.destination}"></p>
-                        <p class="text-sm text-gray-400"
-                           th:text="${route.pickupTime} + ' — ' + ${route.dropTime}"></p>
-                        <p class="text-sm text-gray-400"
-                           th:text="'₹' + ${route.pricePerSeat} + ' per seat'"></p>
-                        <p class="text-sm text-gray-400"
-                           th:text="'Total seats: ' + ${route.bus.capacity}"></p>
+                        <p class="text-lg font-semibold" th:text="${route.origin} + ' → ' + ${route.destination}"></p>
+                        <p class="text-sm text-gray-400" th:text="${route.pickupTime} + ' — ' + ${route.dropTime}"></p>
+                        <p class="text-sm text-gray-400" th:text="'₹' + ${route.pricePerSeat} + ' per seat'"></p>
+                        <p class="text-sm text-gray-400" th:text="'Total seats: ' + ${route.bus.capacity}"></p>
                     </div>
 
-                    <!-- Seat selection -->
-                    <h3 class="text-xl font-bold mb-4">Select Your Seat</h3>
-                    <div class="bg-[var(--surface-color)] p-6 rounded-lg border border-[var(--border-color)]">
-                        <div class="grid grid-cols-5 gap-3 max-w-sm mx-auto">
-                            <div th:each="seat : ${#numbers.sequence(1, route.bus.capacity)}"
-                                 th:classappend="${bookedSeats.contains(seat)} ? ' seat-unavailable' : ' seat-available'"
-                                 class="seat text-center p-2 cursor-pointer">
-                                <input type="checkbox" th:value="${seat}" name="seats"
-                                       class="seat-checkbox"
-                                       th:disabled="${bookedSeats.contains(seat)}"/>
-                                <span class="seat text-center p-2" th:text="${seat}"></span>
+                    <!-- Seat Selection -->
+                    <div>
+                        <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4 mt-6">Select Your Seat</h3>
+                        <div class="bg-[var(--background-color)] p-6 rounded-lg border border-[var(--border-color)]">
+                            <div class="grid grid-cols-5 gap-3 max-w-sm mx-auto">
+                                <div th:each="seat : ${#numbers.sequence(1, route.bus.capacity)}"
+                                    th:classappend="${bookedSeats.contains(seat)} ? ' seat seat-unavailable' : ' seat seat-available'"
+                                    class="seat text-center p-2 rounded-md text-xs font-semibold relative cursor-pointer">
+
+                                    <!-- seat checkbox -->
+                                    <input type="checkbox" th:value="${seat}" name="seats" class="seat-checkbox sr-only"
+                                        th:disabled="${bookedSeats.contains(seat)}" />
+
+                                    <!-- seat label -->
+                                    <span th:text="${seat}"
+                                        class="seat-label block w-full h-full pointer-events-none"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="flex items-center justify-center gap-6 mt-4 text-xs">
+                            <div class="flex items-center gap-2">
+                                <div
+                                    class="w-4 h-4 rounded-sm bg-[var(--surface-color)] border border-[var(--border-color)]">
+                                </div>
+                                <span>Available</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 rounded-sm bg-[var(--primary-color)]"></div>
+                                <span>Selected</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 rounded-sm bg-[#4b5563]"></div>
+                                <span>Unavailable</span>
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="flex items-center justify-center gap-6 mt-4 text-sm">
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-4 rounded-sm bg-[var(--surface-color)] border border-[var(--border-color)]"></div>
-                            <span class="text-[var(--text-secondary)]">Available</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-4 rounded-sm bg-[var(--primary-color)]"></div>
-                            <span class="text-[var(--text-secondary)]">Selected</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-4 rounded-sm bg-[#333] border border-[#333]"></div>
-                            <span class="text-[var(--text-secondary)]">Unavailable</span>
-                        </div>
-                    </div>
                     <!-- Passenger Info -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                        <div>
-                            <label for="name" class="block mb-2">Full Name</label>
-                            <input type="text" id="name" name="name" required
-                                   class="form-input w-full"/>
-                        </div>
-                        <div>
-                            <label for="email" class="block mb-2">Email Address</label>
-                            <input type="email" id="email" name="email" required
-                                   class="form-input w-full"/>
+                    <div>
+                        <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4 mt-6">Passenger Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form_label block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                    for="customerName">Full Name</label>
+                                <input class="form-input w-full p-3 rounded-lg" id="customerName" name="customerName"
+                                    placeholder="John Doe" type="text" />
+                            </div>
+                            <div>
+                                <label class="form_label block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                    for="customerMobile">Mobile Number</label>
+                                <input class="form-input w-full p-3 rounded-lg" id="customerMobile"
+                                    name="customerMobile" placeholder="+91 9876543210" type="text" />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="text-center mt-6">
-                        <button type="submit"
-                                class="bg-[var(--primary-color)] text-black px-8 py-3 rounded-lg font-bold">
-                            Confirm &amp; Book
-                        </button>
-                    </div>
+                    <!-- ✅ Confirm Button inside form -->
+                    <button type="submit" class="w-full mt-8 bg-[var(--primary-color)] text-white py-3 px-4 rounded-lg
+                   hover:bg-[var(--secondary-color)] focus:outline-none
+                   focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50
+                   transition-all duration-300 font-bold text-lg transform hover:scale-105">
+                        Confirm &amp; Book
+                    </button>
                 </form>
 
             </div>
-
-            <!-- Booking Summary -->
             <div
-                    class="bg-[var(--surface-color)] p-8 rounded-xl shadow-lg border border-[var(--border-color)] h-fit sticky top-28">
+                class="bg-[var(--surface-color)] p-8 rounded-2xl shadow-2xl border border-[var(--border-color)] h-fit sticky top-24">
                 <h3
-                        class="text-2xl font-bold text-[var(--text-primary)] mb-6 border-b border-[var(--border-color)] pb-4">
+                    class="text-2xl font-bold text-[var(--text-primary)] mb-6 border-b border-[var(--border-color)] pb-4">
                     Booking Summary</h3>
-                <div class="space-y-4 text-base">
+                <div class="space-y-4 text-sm">
                     <div class="flex justify-between">
                         <span class="text-[var(--text-secondary)]">Route:</span>
-                        <span class="font-medium text-[var(--text-primary)]"
-                              th:text="${route.origin} + ' → ' + ${route.destination}">New York to Boston</span>
+                        <span class="font-semibold text-[var(--text-primary)]"
+                            th:text="${route.origin} + ' → ' + ${route.destination}">New York to Boston</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-[var(--text-secondary)]">Date:</span>
-                        <span class="font-medium text-[var(--text-primary)]"
-                              th:text="${route.date}">August 15, 2024</span>
+                        <span class="font-semibold text-[var(--text-primary)]" th:text="${route.date}">August 15,
+                            2024</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-[var(--text-secondary)]">Time:</span>
-                        <span class="font-medium text-[var(--text-primary)]"
-                              th:text="${route.pickupTime} + ' → ' + ${route.dropTime}">08:30 AM</span>
+                        <span class="font-semibold text-[var(--text-primary)]"
+                            th:text="${route.pickupTime} + ' → ' + ${route.dropTime}">08:30 AM</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-[var(--text-secondary)]">Seats:</span>
-                        <span id="selectedSeats"
-                              class="font-medium text-[var(--text-primary)]">None</span>
+                        <span id="selectedSeats" class="font-semibold text-[var(--text-primary)]">None</span>
                     </div>
-
                     <div class="border-t border-[var(--border-color)] my-6"></div>
-                    <div class="flex justify-between items-center text-lg">
+                    <div class="flex justify-between text-lg">
                         <span class="font-bold text-[var(--text-primary)]">Total Cost:</span>
-                        <span class="font-bold text-[var(--primary-color)] text-2xl"
-                              th:text="'₹' + ${route.pricePerSeat}">$45.00</span>
+                        <span id="totalCost" class="font-bold text-[var(--primary-color)]  text-2xl"
+                            th:text="'₹' + ${route.pricePerSeat}">$45.00</span>
                     </div>
                 </div>
-                <button
-                        class="w-full mt-8 bg-[var(--primary-color)] text-black py-3 px-4 rounded-lg hover:bg-[var(--secondary-color)] focus:outline-none focus:ring-4 focus:ring-[var(--accent-color)] transition-all duration-300 font-bold text-lg transform hover:scale-105">
-                    Confirm &amp; Book
-                </button>
             </div>
         </div>
     </main>
 </th:block>
 <th:block layout:fragment="page-script">
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll(".seat-checkbox");
-        const seatLabel = document.getElementById("selectedSeats");
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll(".seat-checkbox");
+            const seatLabel = document.getElementById("selectedSeats");
+            const totalCost = document.getElementById("totalCost");
 
-        checkboxes.forEach(cb => {
-            cb.addEventListener("change", () => {
+            const pricePerSeat = /*[[${route.pricePerSeat}]]*/ 0;
+
+            function updateSummary() {
                 const selected = Array.from(checkboxes)
                     .filter(ch => ch.checked)
                     .map(ch => ch.value);
 
                 seatLabel.textContent = selected.length > 0 ? selected.join(", ") : "None";
+                totalCost.textContent = selected.length > 0 ? "₹" + (selected.length * pricePerSeat) : "₹0";
+            }
+
+            checkboxes.forEach(cb => {
+                cb.parentElement.addEventListener("click", (e) => {
+                    if (cb.disabled || cb.parentElement.classList.contains("seat-unavailable")) {
+                        e.preventDefault(); // stop interaction only for unavailable seats
+                        return;
+                    }
+
+                    cb.checked = !cb.checked;
+                    cb.dispatchEvent(new Event("change"));
+                });
+
+                cb.addEventListener("change", () => {
+                    cb.parentElement.classList.toggle("seat-selected", cb.checked);
+                    updateSummary();
+                });
+            });
+
+            // initialize
+            updateSummary();
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", function (event) {
+                clearErrorMessages();
+
+                validateSeats(event);
+                validateRequired("customerName", "Please enter your full name", event);
+                validateMobile("customerMobile", "Please enter a valid mobile number", event);
+            });
+
+            function clearErrorMessages() {
+                document.querySelectorAll(".error-message").forEach(error => error.remove());
+            }
+
+            function appendErrorMessage(fieldId, errorMessage, event) {
+                const field = document.getElementById(fieldId);
+                if (field && !field.parentNode.querySelector(".error-message")) {
+                    const errorMessageElement = document.createElement("p");
+                    errorMessageElement.className = "error-message text-red-500 text-sm mt-1";
+                    errorMessageElement.textContent = errorMessage;
+                    field.insertAdjacentElement("afterend", errorMessageElement);
+                }
+                event.preventDefault();
+            }
+
+            function validateRequired(fieldId, errorMessage, event) {
+                const fieldValue = document.getElementById(fieldId).value.trim();
+                if (fieldValue === "") {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                }
+            }
+
+            function validateMobile(fieldId, errorMessage, event) {
+                const value = document.getElementById(fieldId).value.trim();
+                const mobileRegex = /^\d{10}$/;
+                if (!mobileRegex.test(value)) {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                }
+            }
+
+            function validateSeats(event) {
+                const selectedSeats = document.querySelectorAll(".seat-checkbox:checked");
+                if (selectedSeats.length === 0) {
+                    // Show error below seat selection grid
+                    const seatGrid = document.querySelector(".grid.grid-cols-5");
+                    if (seatGrid && !seatGrid.parentNode.querySelector(".error-message")) {
+                        const errorMessageElement = document.createElement("p");
+                        errorMessageElement.className = "error-message text-red-500 text-sm mt-2 text-center";
+                        errorMessageElement.textContent = "Please select at least one seat";
+                        seatGrid.parentNode.appendChild(errorMessageElement);
+                    }
+                    event.preventDefault();
+                }
+            }
+
+            // Clear errors when user interacts
+            document.querySelectorAll("input, select").forEach(function (element) {
+                element.addEventListener("input", function () {
+                    const errorMessages = this.parentNode.querySelectorAll(".error-message");
+                    errorMessages.forEach(error => error.remove());
+                });
             });
         });
-    });
-
-
-
     </script>
 </th:block>
+
 </html>

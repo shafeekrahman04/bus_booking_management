@@ -84,21 +84,20 @@
 
             form.addEventListener('submit', function (event) {
                 clearErrorMessages();
-                validateField('busNumber', 'Please enter bus number', event);
-                validateField('busModel', 'Please enter bus model', event);
-                validateField('capacity', 'Please enter capacity', event);
-                validateField('busType', 'Please select bus type', event);
+
+                validateRequired('busNumber', 'Please enter bus number', event);
+                validateRequired('busModel', 'Please enter bus model', event);
+                validateRequired('capacity', 'Please enter capacity', event);
+                validateSelect('busType', 'Please select bus type', event);
             });
 
             function clearErrorMessages() {
-                document.querySelectorAll('.error-message').forEach(function (error) {
-                    error.remove();
-                });
+                document.querySelectorAll('.error-message').forEach(error => error.remove());
             }
 
             function appendErrorMessage(fieldId, errorMessage, event) {
                 const field = document.getElementById(fieldId);
-                if (field) {
+                if (field && !field.parentNode.querySelector('.error-message')) {
                     const errorMessageElement = document.createElement('p');
                     errorMessageElement.className = 'error-message text-red-500 text-sm mt-1';
                     errorMessageElement.textContent = errorMessage;
@@ -107,26 +106,30 @@
                 event.preventDefault();
             }
 
-            function validateField(fieldId, errorMessage, event) {
+            function validateRequired(fieldId, errorMessage, event) {
                 const fieldValue = document.getElementById(fieldId).value.trim();
                 if (fieldValue === '') {
                     appendErrorMessage(fieldId, errorMessage, event);
                 }
             }
 
+            function validateSelect(fieldId, errorMessage, event) {
+                const fieldValue = document.getElementById(fieldId).value;
+                if (fieldValue === '') {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                }
+            }
+
+            // clear errors on change
             document.querySelectorAll('input, textarea, select').forEach(function (element) {
-                element.addEventListener('change', function () {
+                element.addEventListener('input', function () {
                     const errorMessages = this.parentNode.querySelectorAll('.error-message');
-                    errorMessages.forEach(function (error) {
-                        error.remove();
-                    });
+                    errorMessages.forEach(error => error.remove());
                 });
             });
         });
-
     </script>
-
-
 </th:block>
+
 
 </html>

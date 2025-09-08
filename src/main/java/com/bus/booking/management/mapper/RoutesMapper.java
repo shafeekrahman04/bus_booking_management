@@ -66,7 +66,7 @@ public class RoutesMapper {
         route.setDate(routesForm.getDate() != null ? LocalDate.parse(routesForm.getDate()) : null);
         route.setPickupTime(routesForm.getPickupTime() != null ? LocalTime.parse(routesForm.getPickupTime()) : null);
         route.setDropTime(routesForm.getDropTime() != null ? LocalTime.parse(routesForm.getDropTime()) : null);
-        route.setStatus(routesForm.getStatus());
+        route.setStatus(YNStatus.YES.getStatus());
         route.setDeleted(YNStatus.NO.getStatus());
         route.setCreatedBy(StringUtils.user);
         route.setCreatedOn(StringUtils.now);
@@ -86,7 +86,7 @@ public class RoutesMapper {
         route.setDate(LocalDate.parse(routesForm.getDate()));
         route.setPickupTime(LocalTime.parse(routesForm.getPickupTime()));
         route.setDropTime(LocalTime.parse(routesForm.getDropTime()));
-        route.setStatus(routesForm.getStatus());
+        route.setStatus(YNStatus.YES.getStatus());
         route.setDeleted(YNStatus.NO.getStatus());
         route.setUpdatedBy(StringUtils.user);
         route.setUpdatedOn(StringUtils.now);

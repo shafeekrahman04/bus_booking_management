@@ -14,6 +14,7 @@ public interface BookingRepository extends JpaRepository<Bookings, Long> {
 
     List<Bookings> findTop5ByOrderByBookingDateDesc();
 
-    @Query("SELECT b.seatNumber FROM Bookings b WHERE b.route.id = :routeId AND b.deleted = 'N'")
-    List<String> findBookedSeatsByRouteId(Long routeId);
+    @Query("SELECT s FROM Bookings b JOIN b.seatNumbers s WHERE b.route.id = :routeId AND b.deleted = 'F'")
+    List<Integer> findBookedSeatsByRouteId(Long routeId);
+
 }

@@ -49,10 +49,16 @@
                         <!-- Example: If you also need bus number, add it to BookingForm -->
                         <span th:text="${b.busNumber}">BS-001</span>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm" th:classappend="${b.status == 'Confirmed'} ? 'text-green-400' :
-                        (b.status == 'Pending') ? 'text-yellow-400' : 'text-red-400'" th:text="${b.status}">
-                        Status
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <span th:classappend="${b.status == 'CONFIRMED'} ? 'bg-green-500 text-green-100' :
+                                       (b.status == 'PENDING' ? 'bg-yellow-500 text-yellow-100' :
+                                       (b.status == 'CANCELLED' ? 'bg-red-500 text-red-100' : ''))"
+                      class="px-3 py-1 text-xs font-semibold leading-5 rounded-full"
+                      th:text="${b.status}">
+                    Status
+                </span>
                     </td>
+
                     <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
                         <button class="text-blue-400 hover:text-blue-300">View</button>
                         <button class="text-red-400 hover:text-red-300"

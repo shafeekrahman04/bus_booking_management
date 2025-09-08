@@ -1,16 +1,23 @@
 package com.bus.booking.management.controller.app;
 
+import com.bus.booking.management.dao.AdminUserRepository;
 import com.bus.booking.management.dao.BookingRepository;
 import com.bus.booking.management.dao.RoutesRepository;
+import com.bus.booking.management.model.AdminUser;
+import com.bus.booking.management.model.Bookings;
 import com.bus.booking.management.model.Routes;
+import com.bus.booking.management.reftype.YNStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -21,6 +28,9 @@ public class RoutesController {
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private AdminUserRepository adminUserRepository;
     private static final String ROUTES_PAGE = "public/routes";
     private static final String ADD_BOOKING_PAGE = "public/booking-form";
 
@@ -50,11 +60,50 @@ public class RoutesController {
                 .orElseThrow(() -> new RuntimeException("Route not found"));
 
         // Example: bookedSeats = ["1C","2B","4A"]
-        List<String> bookedSeats = bookingRepository.findBookedSeatsByRouteId(routeId);
-
+        List<Integer> bookedSeats = bookingRepository.findBookedSeatsByRouteId(routeId);
         model.addAttribute("route", route);
         model.addAttribute("bookedSeats", bookedSeats);
 
         return ADD_BOOKING_PAGE;
     }
+
+    @PostMapping("/save-booking")
+    public String saveBooking(@RequestParam("routeId") Long routeId,
+                              @RequestParam("customerName") String customerName,
+                              @RequestParam("customerMobile") String customerMobile,
+                              @RequestParam("seats") List<Integer> seats,
+                              Model model) {
+
+        Routes route = routesRepository.findById(routeId)
+                .orElseThrow(() -> new RuntimeException("Route not found"));
+        AdminUser adminUser = adminUserRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Admin User not found"));
+
+        Bookings booking = new Bookings();
+        booking.setRoute(route);
+        booking.setCustomerName(customerName);
+        booking.setCustomerMobile(customerMobile);
+        booking.setSeatNumbers(seats);
+
+        // calculate total price = price per seat * number of seats
+        BigDecimal pricePerSeat = route.getPricePerSeat();
+        BigDecimal totalPrice = pricePerSeat.multiply(BigDecimal.valueOf(seats.size()));
+        booking.setTotalPrice(totalPrice);
+        booking.setUser(adminUser);
+        booking.setBookingDate(LocalDate.now());
+        booking.setStatus("CONFIRMED");
+        booking.setDeleted(YNStatus.NO.getStatus());
+        booking.setCreatedBy("SYSTEM");
+        booking.setCreatedOn(LocalDateTime.now());
+
+        bookingRepository.save(booking);
+
+        model.addAttribute("message", "Booking successful for " + seats.size() + " seats!");
+        model.addAttribute("route", route);
+        model.addAttribute("seats", seats);
+        model.addAttribute("totalPrice", totalPrice);
+
+        return "public/booking-confirm";
+    }
+
 }

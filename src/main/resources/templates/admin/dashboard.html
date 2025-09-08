@@ -51,9 +51,9 @@
                         th:text="${booking.date}">2024-01-01
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                <span th:classappend="${booking.status == 'Confirmed'} ? 'bg-green-500 text-green-100' :
-                                       (booking.status == 'Pending' ? 'bg-yellow-500 text-yellow-100' :
-                                       (booking.status == 'Cancelled' ? 'bg-red-500 text-red-100' : ''))"
+                <span th:classappend="${booking.status == 'CONFIRMED'} ? 'bg-green-500 text-green-100' :
+                                       (booking.status == 'PENDING' ? 'bg-yellow-500 text-yellow-100' :
+                                       (booking.status == 'CANCELLED' ? 'bg-red-500 text-red-100' : ''))"
                       class="px-3 py-1 text-xs font-semibold leading-5 rounded-full"
                       th:text="${booking.status}">
                     Status

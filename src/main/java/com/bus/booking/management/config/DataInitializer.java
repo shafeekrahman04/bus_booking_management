@@ -2,6 +2,7 @@ package com.bus.booking.management.config;
 
 import com.bus.booking.management.dao.AdminUserRepository;
 import com.bus.booking.management.model.AdminUser;
+import com.bus.booking.management.reftype.YNStatus;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ public class DataInitializer {
                         .email("admin@busbooking.com")
                         .password(passwordEncoder.encode("123"))
                         .role("ADMIN")
-                        .deleted("N")
+                        .deleted(YNStatus.NO.getStatus())
                         .createdBy("SYSTEM")
                         .createdOn(LocalDateTime.now())
                         .build();

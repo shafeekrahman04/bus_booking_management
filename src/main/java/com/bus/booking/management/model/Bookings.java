@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,11 +23,11 @@ public class Bookings {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", insertable = false, updatable = false)
-    private AppUser user;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
+    private AdminUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ROUTE_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    @JoinColumn(name = "ROUTE_ID", referencedColumnName = "ID", nullable = false)
     private Routes route;
 
     @Column(name = "TOTAL_PRICE")
@@ -41,8 +42,10 @@ public class Bookings {
     @Column(name = "BOOKING_DATE")
     private LocalDate bookingDate;
 
+    @ElementCollection
+    @CollectionTable(name = "booking_seats", joinColumns = @JoinColumn(name = "BOOKING_ID"))
     @Column(name = "SEAT_NUMBER")
-    private String seatNumber;
+    private List<Integer> seatNumbers;
 
     @Column(name = "STATUS")
     private String status;

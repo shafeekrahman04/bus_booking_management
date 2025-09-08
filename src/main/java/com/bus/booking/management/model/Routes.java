@@ -24,7 +24,7 @@ public class Routes {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUS_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "BUS_ID", referencedColumnName = "ID", nullable = false)
     private Bus bus;
 
     @Column(name = "PRICE_PER_SEAT")
