@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface AdminUserRepository extends JpaRepository<AdminUser, Long> {
-    List<AdminUser> findAllByDeleted(String deleted);
+    List<AdminUser> findAllByRoleNotAndDeleted(String role, String deleted);
     Optional<AdminUser> findByUsername(String username);
 
 

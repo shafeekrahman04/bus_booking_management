@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{admin/layout}"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='dashboard'">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='dashboard'">
+
 <head>
     <title>Dashboard </title>
 </head>
@@ -28,38 +29,37 @@
         <div class="table-responsive bg-gray-800 rounded-xl border border-gray-700">
             <table class="w-full text-left">
                 <thead class="bg-gray-900">
-                <tr>
-                    <th class="px-6 py-4 text-sm font-semibold text-white">Booking ID</th>
-                    <th class="px-6 py-4 text-sm font-semibold text-white">Route</th>
-                    <th class="px-6 py-4 text-sm font-semibold text-white">User</th>
-                    <th class="px-6 py-4 text-sm font-semibold text-white">Date</th>
-                    <th class="px-6 py-4 text-sm font-semibold text-white">Status</th>
-                </tr>
+                    <tr>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Booking ID</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Route</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">User</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Date</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-white">Status</th>
+                    </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-700">
-                <tr th:each="booking : ${dashboard.recentBookings}">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-white"
-                        th:text="${booking.bookingId}">BKXXXXX
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
-                        th:text="${booking.route}">Route X
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
-                        th:text="${booking.user}">User X
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
-                        th:text="${booking.date}">2024-01-01
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                <span th:classappend="${booking.status == 'CONFIRMED'} ? 'bg-green-500 text-green-100' :
-                                       (booking.status == 'PENDING' ? 'bg-yellow-500 text-yellow-100' :
-                                       (booking.status == 'CANCELLED' ? 'bg-red-500 text-red-100' : ''))"
-                      class="px-3 py-1 text-xs font-semibold leading-5 rounded-full"
-                      th:text="${booking.status}">
-                    Status
-                </span>
-                    </td>
-                </tr>
+                    <tr th:each="booking : ${dashboard.recentBookings}">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-white" th:text="${booking.bookingId}">
+                            BKXXXXX
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
+                            th:text="${booking.route}">Route X
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
+                            th:text="${booking.user}">User X
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]"
+                            th:text="${booking.date}">2024-01-01
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <span th:classappend="${booking.status == 'CONFIRMED'} ? 'bg-blue-600 text-white' :
+                                                      (${booking.status == 'CANCELLED'} ? 'bg-red-600 text-white' : '')"
+                                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
+                                th:text="${booking.status}">
+                                Status
+                            </span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -67,4 +67,5 @@
 </th:block>
 <th:block layout:fragment="page-script">
 </th:block>
+
 </html>

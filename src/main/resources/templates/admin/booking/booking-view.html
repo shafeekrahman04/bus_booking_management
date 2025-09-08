@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{admin/layout}"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <title>Booking Details</title>
+</head>
+
+<th:block layout:fragment="content">
+  <main class="flex-1 p-6 md:p-10 bg-gray-900 min-h-screen">
+    <!-- Title -->
+    <h1 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+      <span class="inline-block w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">🚌</span>
+      Booking Details
+    </h1>
+
+    <!-- Booking Card -->
+    <div
+      class="bg-gray-800 p-8 rounded-2xl border border-gray-700 text-white shadow-lg hover:shadow-xl transition-shadow">
+
+      <!-- Grid Layout -->
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- Left Column -->
+        <div class="space-y-4">
+          <p><strong class="text-gray-400">Booking ID:</strong>
+            <span class="ml-2 text-lg font-semibold text-blue-400" th:text="${'BK-' + booking.id}"></span>
+          </p>
+
+          <p><strong class="text-gray-400">Passenger:</strong>
+            <span class="ml-2" th:text="${booking.customerName}"></span>
+          </p>
+
+          <p><strong class="text-gray-400">Route:</strong>
+            <span class="ml-2 font-medium text-green-400"
+              th:text="${booking.route.origin} + ' → ' + ${booking.route.destination}"></span>
+          </p>
+
+          <p><strong class="text-gray-400">Date & Time:</strong>
+            <span class="ml-2" th:text="${booking.route.date} + ', ' + ${booking.route.pickupTime}"></span>
+          </p>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-4">
+          <p><strong class="text-gray-400">Bus Name:</strong>
+            <span class="ml-2 font-semibold" th:text="${booking.route.bus.busName}"></span>
+          </p>
+
+          <p><strong class="text-gray-400">Bus Number:</strong>
+            <span class="ml-2" th:text="${booking.route.bus.busNumber}"></span>
+          </p>
+
+          <p><strong class="text-gray-400">Bus Type:</strong>
+            <span th:classappend="${booking.route.bus.busType == 'AC'} ? 'bg-green-500 text-green-100' :
+                                (booking.route.bus.busType == 'Non-AC' ? 'bg-yellow-500 text-yellow-100' : '')"
+              class="ml-2 px-3 py-1 text-xs font-semibold leading-5 rounded-full shadow"
+              th:text="${booking.route.bus.busType}">
+              BusType
+            </span>
+          </p>
+
+          <p><strong class="text-gray-400">Status:</strong>
+            <span th:classappend="${booking.status == 'CONFIRMED'} ? 'bg-blue-600 text-white' :
+                              (${booking.status == 'CANCELLED'} ? 'bg-red-600 text-white' : 'bg-gray-600 text-white')"
+              class="ml-2 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow"
+              th:text="${booking.status}">
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Seats Section -->
+      <div class="mt-6">
+        <p class="text-sm text-gray-400 font-medium mb-2">Seats</p>
+        <div class="flex flex-wrap gap-2">
+          <span th:each="seat : ${booking.seatNumbers}"
+            class="px-4 py-1 text-sm font-semibold rounded-lg bg-blue-500 text-white shadow hover:bg-blue-600 transition">
+            <span th:text="${seat}"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-8">
+      <a href="/admin/bookings"
+        class="inline-flex items-center px-5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-blue-400 hover:text-white font-medium shadow transition">
+        ⬅ Back to List
+      </a>
+    </div>
+  </main>
+</th:block>
+
+</html>

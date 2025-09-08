@@ -19,7 +19,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public List<AdminUser> listAllAdminUsers() {
-        return adminUserRepository.findAllByDeleted(YNStatus.NO.getStatus());
+        return adminUserRepository.findAllByRoleNotAndDeleted("USER",YNStatus.NO.getStatus());
     }
 
     @Override

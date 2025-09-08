@@ -14,4 +14,6 @@ public interface BookingService {
     public Optional<Bookings> getBookingByIdAndUser(Long id, String username);
 
     public void cancelBooking(Long bookingId);
+
+    public Bookings getBookingById(Long id);
 }

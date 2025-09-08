@@ -40,4 +40,9 @@ public class BookingServiceImpl implements BookingService {
         booking.setStatus("CANCELLED");
         bookingRepository.save(booking);
     }
+
+    public Bookings getBookingById(Long id) {
+        return bookingRepository.findById(id).orElse(null);
+    }
+
 }
