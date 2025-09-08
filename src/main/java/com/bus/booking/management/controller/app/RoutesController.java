@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +34,7 @@ public class RoutesController {
     private AdminUserRepository adminUserRepository;
     private static final String ROUTES_PAGE = "public/routes";
     private static final String ADD_BOOKING_PAGE = "public/booking-form";
+    private static final String BOOKING_SUCCESS_PAGE = "public/booking-success";
 
     @GetMapping("/routes")
     public String routes(@RequestParam(required = false) String origin,
@@ -72,12 +74,15 @@ public class RoutesController {
                               @RequestParam("customerName") String customerName,
                               @RequestParam("customerMobile") String customerMobile,
                               @RequestParam("seats") List<Integer> seats,
-                              Model model) {
+                              Model model, Principal principal) {
 
         Routes route = routesRepository.findById(routeId)
                 .orElseThrow(() -> new RuntimeException("Route not found"));
-        AdminUser adminUser = adminUserRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("Admin User not found"));
+        String username = principal.getName();
+
+        AdminUser loggedInUser = adminUserRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Logged-in user not found"));
+
 
         Bookings booking = new Bookings();
         booking.setRoute(route);
@@ -89,7 +94,7 @@ public class RoutesController {
         BigDecimal pricePerSeat = route.getPricePerSeat();
         BigDecimal totalPrice = pricePerSeat.multiply(BigDecimal.valueOf(seats.size()));
         booking.setTotalPrice(totalPrice);
-        booking.setUser(adminUser);
+        booking.setUser(loggedInUser);
         booking.setBookingDate(LocalDate.now());
         booking.setStatus("CONFIRMED");
         booking.setDeleted(YNStatus.NO.getStatus());
@@ -102,8 +107,14 @@ public class RoutesController {
         model.addAttribute("route", route);
         model.addAttribute("seats", seats);
         model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("booking", booking);
 
-        return "public/booking-confirm";
+        return BOOKING_SUCCESS_PAGE;
+    }
+
+    @GetMapping("/booking-confirm")
+    public String bookingConfirm() {
+        return BOOKING_SUCCESS_PAGE;
     }
 
 }

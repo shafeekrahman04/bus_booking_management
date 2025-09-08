@@ -93,13 +93,23 @@
                             </div>
                             <div>
                                 <p class="text-lg font-semibold"
-                                    th:text="${route.origin} + ' → ' + ${route.destination}"></p>
+                                    th:text="${route.origin} + ' → ' + ${route.destination}">
+                                </p>
+                                <p class="text-sm text-[var(--text-secondary)]"
+                                    th:text="${route.bus.busName} + ' — ' + ${route.bus.busNumber} ">
+                                </p>
                                 <p class="text-sm text-[var(--text-secondary)]"
                                     th:text="${route.pickupTime} + ' — ' + ${route.dropTime}"></p>
                             </div>
                         </div>
 
                         <div class="text-right">
+                            <span th:classappend="${route.bus.busType == 'AC'} ? 'bg-green-500 text-green-100' :
+                               (route.bus.busType == 'Non-AC' ? 'bg-yellow-500 text-yellow-100' : '')"
+                                class="px-3 py-1 text-xs font-semibold leading-5 rounded-full"
+                                th:text="${route.bus.busType}">
+                                Status
+                            </span>
                             <p class="text-xl font-bold text-[var(--primary-color)]"
                                 th:text="'₹' + ${route.pricePerSeat}"></p>
                             <p class="text-sm text-[var(--text-secondary)]"
