@@ -47,13 +47,13 @@
                 </div>
                 <nav class="hidden items-center gap-8 md:flex">
                     <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                       th:href="@{/v1/home}">Home</a>
+                        th:href="@{/v1/home}">Home</a>
                     <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                       th:href="@{/v1/routes}">Routes</a>
+                        th:href="@{/v1/routes}">Routes</a>
                     <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                       th:href="@{/v1/home#contact}">Contact</a>
+                        th:href="@{/v1/home#contact}">Contact</a>
                     <a class="rounded-full bg-gray-800 px-5 py-2.5 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:bg-gray-700"
-                       th:href="@{/v1/login}">Login</a>
+                        th:href="@{/v1/login}">Login</a>
                 </nav>
                 <button class="md:hidden">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -70,60 +70,169 @@
                     <h2 class="text-3xl font-bold tracking-tight text-[var(--text-primary)]">Create your account</h2>
                     <p class="mt-2 text-sm text-[var(--text-secondary)]">Join us and start your journey with ease.</p>
                 </div>
-                <form class="mt-8 space-y-6 rounded-2xl bg-gray-900 p-8 shadow-2xl">
+                <form id="signupForm" th:action="@{/v1/signup}" th:object="${adminUserForm}" method="post"
+                    class="mt-8 space-y-6 rounded-2xl bg-gray-900 p-8 shadow-2xl">
+
                     <div class="space-y-4">
                         <div>
-                            <label class="sr-only" for="full-name">Full Name</label>
-                            <input autocomplete="name" class="form-input-custom" id="full-name" name="full-name"
-                                placeholder="Full Name" required="" type="text" />
+                            <label class="sr-only" for="name">Full Name</label>
+                            <input th:field="*{name}" autocomplete="name" class="form-input-custom" id="name"
+                                placeholder="Full Name" type="text" />
+                            <p class="text-red-500 text-sm mt-1 hidden" id="nameError"></p>
+
                         </div>
                         <div>
-                            <label class="sr-only" for="email-address">Email address</label>
-                            <input autocomplete="email" class="form-input-custom" id="email-address" name="email"
-                                placeholder="Email address" required="" type="email" />
+                            <label class="sr-only" for="username">Username</label>
+                            <input th:field="*{username}" autocomplete="username" class="form-input-custom"
+                                id="username" placeholder="Username" type="text" />
+                            <p class="text-red-500 text-sm mt-1 hidden" id="usernameError"></p>
+
+                        </div>
+                        <div>
+                            <label class="sr-only" for="email">Email address</label>
+                            <input th:field="*{email}" autocomplete="email" class="form-input-custom" id="email"
+                                placeholder="Email address" type="email" />
+                            <p class="text-red-500 text-sm mt-1 hidden" id="emailError"></p>
+
                         </div>
                         <div>
                             <label class="sr-only" for="password">Password</label>
-                            <input autocomplete="new-password" class="form-input-custom" id="password" name="password"
-                                placeholder="Password" required="" type="password" />
+                            <input th:field="*{password}" autocomplete="new-password" class="form-input-custom"
+                                id="password" placeholder="Password" type="password" />
+                            <p class="text-red-500 text-sm mt-1 hidden" id="passwordError"></p>
+
                         </div>
                         <div>
-                            <label class="sr-only" for="contact-number">Contact Number</label>
-                            <input autocomplete="tel" class="form-input-custom" id="contact-number"
-                                name="contact-number" placeholder="Contact Number" required="" type="tel" />
+                            <label class="sr-only" for="mobileNumber">Contact Number</label>
+                            <input th:field="*{mobileNumber}" autocomplete="tel" class="form-input-custom"
+                                id="mobileNumber" placeholder="Contact Number" type="tel" />
+                            <p class="text-red-500 text-sm mt-1 hidden" id="mobileError"></p>
+
                         </div>
                     </div>
+
                     <div class="flex items-center">
-                        <input class="form-checkbox-custom" id="terms-and-conditions" name="terms-and-conditions"
-                            required="" type="checkbox" />
-                        <label class="ml-3 block text-sm text-[var(--text-secondary)]" for="terms-and-conditions"> I
-                            agree to the <a
-                                class="font-medium text-[var(--primary-color)] hover:text-[var(--secondary-color)]"
-                                href="#">Terms and Conditions</a> </label>
+                        <input class="form-checkbox-custom" id="terms-and-conditions" type="checkbox" />
+                        <p class="text-red-500 text-sm mt-1 hidden" id="termsError"></p>
+                        <label class="ml-3 block text-sm text-[var(--text-secondary)]" for="terms-and-conditions">
+                            I agree to the <a href="#"
+                                class="font-medium text-[var(--primary-color)] hover:text-[var(--secondary-color)]">Terms
+                                and Conditions</a>
+                        </label>
                     </div>
+
                     <div>
-                        <button
-                            class="group relative flex w-full justify-center rounded-lg border border-transparent bg-[var(--primary-color)] px-4 py-3 text-base font-semibold text-gray-900 transition-colors hover:bg-[var(--secondary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2 focus:ring-offset-gray-900"
-                            type="submit">
+                        <button type="submit"
+                            class="group relative flex w-full justify-center rounded-lg border border-transparent bg-[var(--primary-color)] px-4 py-3 text-base font-semibold text-gray-900 transition-colors hover:bg-[var(--secondary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2 focus:ring-offset-gray-900">
                             Sign Up
                         </button>
                     </div>
                     <p class="mt-6 text-center text-sm text-[var(--text-secondary)]">
                         Already have an account?
                         <a class="font-medium text-[var(--primary-color)] hover:text-[var(--secondary-color)]"
-                           th:href="@{/v1/login}">
+                            th:href="@{/v1/login}">
                             Login </a>
                     </p>
                 </form>
             </div>
         </main>
-         <footer class="bg-gray-900 text-[var(--text-secondary)] mt-auto">
+        <footer class="bg-gray-900 text-[var(--text-secondary)] mt-auto">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
                 <p>© 2025 TravelEase. All rights reserved.</p>
             </div>
         </footer>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("signupForm");
+            const nameInput = form.querySelector("#name");
+            const usernameInput = form.querySelector("#username");
+            const emailInput = form.querySelector("#email");
+            const passwordInput = form.querySelector("#password");
+            const mobileInput = form.querySelector("#mobileNumber");
+            const termsCheckbox = form.querySelector("#terms-and-conditions");
+
+            const nameError = document.getElementById("nameError");
+            const usernameError = document.getElementById("usernameError");
+            const emailError = document.getElementById("emailError");
+            const passwordError = document.getElementById("passwordError");
+            const mobileError = document.getElementById("mobileError");
+            const termsError = document.getElementById("termsError");
+
+            form.addEventListener("submit", function (e) {
+                let valid = true;
+
+                // Reset styles and messages
+                [nameInput, usernameInput, emailInput, passwordInput, mobileInput].forEach(input => {
+                    input.classList.remove("border-red-500", "ring-1", "ring-red-500");
+                });
+                [nameError, usernameError, emailError, passwordError, mobileError, termsError].forEach(p => {
+                    if (p) {
+                        p.classList.add("hidden");
+                        p.textContent = "";
+                    }
+                });
+
+                // Name validation
+                if (nameInput.value.trim().length < 3) {
+                    valid = false;
+                    nameInput.classList.add("border-red-500", "ring-1", "ring-red-500");
+                    nameError.textContent = "Name must be at least 3 characters.";
+                    nameError.classList.remove("hidden");
+                }
+
+                // Username validation
+                if (usernameInput.value.trim().length < 3) {
+                    valid = false;
+                    usernameInput.classList.add("border-red-500", "ring-1", "ring-red-500");
+                    usernameError.textContent = "Username must be at least 3 characters.";
+                    usernameError.classList.remove("hidden");
+                }
+
+                // Email validation
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(emailInput.value)) {
+                    valid = false;
+                    emailInput.classList.add("border-red-500", "ring-1", "ring-red-500");
+                    emailError.textContent = "Please enter a valid email address.";
+                    emailError.classList.remove("hidden");
+                }
+
+                // Password validation
+                if (passwordInput.value.length < 6) {
+                    valid = false;
+                    passwordInput.classList.add("border-red-500", "ring-1", "ring-red-500");
+                    passwordError.textContent = "Password must be at least 6 characters.";
+                    passwordError.classList.remove("hidden");
+                }
+
+                // Mobile validation
+                const mobilePattern = /^[0-9]{10}$/;
+                if (!mobilePattern.test(mobileInput.value)) {
+                    valid = false;
+                    mobileInput.classList.add("border-red-500", "ring-1", "ring-red-500");
+                    mobileError.textContent = "Mobile number must be 10 digits.";
+                    mobileError.classList.remove("hidden");
+                }
+
+                // Terms checkbox
+                if (!termsCheckbox.checked) {
+                    valid = false;
+                    termsCheckbox.classList.add("ring-1", "ring-red-500");
+                    if (termsError) {
+                        termsError.textContent = "You must agree to the terms.";
+                        termsError.classList.remove("hidden");
+                    }
+                }
+
+                if (!valid) {
+                    e.preventDefault(); // Stop form submission
+                }
+            });
+        });
+
+    </script>
 </body>
 
 </html>

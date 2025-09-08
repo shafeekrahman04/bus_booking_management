@@ -70,13 +70,13 @@
         </div>
         <nav class="hidden items-center gap-8 md:flex">
           <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-             th:href="@{/v1/home}">Home</a>
+            th:href="@{/v1/home}">Home</a>
           <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-             th:href="@{/v1/routes}">Routes</a>
+            th:href="@{/v1/routes}">Routes</a>
           <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-             th:href="@{/v1/home#contact}">Contact</a>
+            th:href="@{/v1/home#contact}">Contact</a>
           <a class="rounded-full bg-gray-800 px-5 py-2.5 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:bg-gray-700"
-             th:href="@{/v1/signup}">Sign Up</a>
+            th:href="@{/v1/signup}">Sign Up</a>
         </nav>
         <button class="md:hidden">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -92,20 +92,24 @@
             <h2 class="text-3xl font-bold text-[var(--text-primary)]">Welcome Back</h2>
             <p class="text-[var(--text-secondary)] mt-2">Log in to continue your journey.</p>
           </div>
-          <form class="space-y-6">
+          <form th:action="@{/login}" method="post" class="space-y-6">
             <div>
-              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="email">Username or
-                Email</label>
-              <input class="form-input w-full" id="email" placeholder="you@example.com" type="email" />
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="email">Username</label>
+              <input class="form-input w-full" id="username" name="username" placeholder="abc...," type="text" />
             </div>
             <div>
               <div class="flex items-center justify-between mb-2">
                 <label class="block text-sm font-medium text-[var(--text-secondary)]" for="password">Password</label>
                 <a class="text-sm text-[var(--primary-color)] hover:underline" href="#">Forgot password?</a>
               </div>
-              <input class="form-input w-full" id="password" placeholder="••••••••" type="password" />
+              <input class="form-input w-full" id="password" name="password" placeholder="••••••••" type="password" />
             </div>
-            <button class="btn-primary w-full" type="submit">Log In</button>
+            <button class="btn-primary w-full" type="submit">Log In</button>.
+            <div th:if="${param.error}" class="alert-danger text-center mt-1" role="alert">
+              <h5 style="font-family: Arial, sans-serif; color: #ec1616; background-color: #ffffff;">
+                <i class=" la la-exclamation-triangle" style="margin-right: 8px;">Invalid Username or password.</i>
+              </h5>
+            </div>
           </form>
 
           <!-- Signup link instead of social login -->
@@ -119,11 +123,11 @@
         </div>
       </div>
     </main>
-     <footer class="bg-gray-900 text-[var(--text-secondary)] mt-auto">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
-                <p>© 2025 TravelEase. All rights reserved.</p>
-            </div>
-        </footer>
+    <footer class="bg-gray-900 text-[var(--text-secondary)] mt-auto">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
+        <p>© 2025 TravelEase. All rights reserved.</p>
+      </div>
+    </footer>
   </div>
 
 </body>

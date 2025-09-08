@@ -25,14 +25,6 @@ public class PublicAppController {
         return PUBLIC_PATH + "my-booking";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return PUBLIC_PATH + "login";
-    }
 
-    @GetMapping("/signup")
-    public String signup() {
-        return PUBLIC_PATH + "signup";
-    }
 
 }

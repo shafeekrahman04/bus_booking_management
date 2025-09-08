@@ -57,6 +57,21 @@ public class AdminUserMapper {
         return adminUser;
     }
 
+    public AdminUser signup(AdminUserForm adminUserForm) {
+        String encodedPassword = passwordEncoder.encode(adminUserForm.getPassword());
+        AdminUser adminUser = new AdminUser();
+        adminUser.setUsername(adminUserForm.getUsername());
+        adminUser.setName(adminUserForm.getName());
+        adminUser.setEmail(adminUserForm.getEmail());
+        adminUser.setMobileNumber(adminUserForm.getMobileNumber());
+        adminUser.setPassword(encodedPassword);
+        adminUser.setRole("USER");
+        adminUser.setDeleted(YNStatus.NO.getStatus());
+        adminUser.setCreatedBy(StringUtils.user);
+        adminUser.setCreatedOn(StringUtils.now);
+        return adminUser;
+    }
+
     public AdminUser map(AdminUserForm adminUserForm, AdminUser adminUser) {
         String encodedPassword = passwordEncoder.encode(adminUserForm.getPassword());
 
