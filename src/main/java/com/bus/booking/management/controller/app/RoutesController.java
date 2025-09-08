@@ -7,19 +7,19 @@ import com.bus.booking.management.model.AdminUser;
 import com.bus.booking.management.model.Bookings;
 import com.bus.booking.management.model.Routes;
 import com.bus.booking.management.reftype.YNStatus;
+import com.bus.booking.management.service.booking.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/v1")
@@ -29,12 +29,15 @@ public class RoutesController {
 
     @Autowired
     private BookingRepository bookingRepository;
+    @Autowired
+    private BookingService bookingService;
 
     @Autowired
     private AdminUserRepository adminUserRepository;
     private static final String ROUTES_PAGE = "public/routes";
     private static final String ADD_BOOKING_PAGE = "public/booking-form";
     private static final String BOOKING_SUCCESS_PAGE = "public/booking-success";
+    private static final String MY_BOOKING_PAGE = "public/my-booking";
 
     @GetMapping("/routes")
     public String routes(@RequestParam(required = false) String origin,
@@ -117,4 +120,43 @@ public class RoutesController {
         return BOOKING_SUCCESS_PAGE;
     }
 
+    @GetMapping("/my-booking")
+    public String getMyBookings(Model model, Principal principal) {
+
+        if (principal == null) {
+            // User not logged in → just show message
+            model.addAttribute("notLoggedIn", true);
+            return MY_BOOKING_PAGE;
+        }
+
+        String username = principal.getName();
+        AdminUser user = adminUserRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Bookings> allBookings = bookingService.getBookingsByUser(user);
+
+        LocalDate today = LocalDate.now();
+
+        // Upcoming bookings
+        List<Bookings> upcoming = allBookings.stream()
+                .filter(b -> !b.getRoute().getDate().isBefore(today))
+                .collect(Collectors.toList());
+
+        // Past bookings
+        List<Bookings> past = allBookings.stream()
+                .filter(b -> b.getRoute().getDate().isBefore(today))
+                .collect(Collectors.toList());
+
+        model.addAttribute("upcomingBookings", upcoming);
+        model.addAttribute("pastBookings", past);
+
+        return MY_BOOKING_PAGE;
+    }
+
+    @PostMapping("/my-booking/{id}/cancel")
+    public String cancelBooking(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        bookingService.cancelBooking(id);
+        redirectAttributes.addFlashAttribute("message", "Booking cancelled successfully.");
+        return "redirect:/v1/my-booking"; // redirect back to bookings page
+    }
 }

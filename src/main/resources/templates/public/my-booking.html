@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{public/layout}"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='my-booking'">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:with="activePage='my-booking'">
+
 <head>
     <title>TravelEase - Bus Booking</title>
 </head>
@@ -11,97 +12,200 @@
             <h2 class="text-3xl font-bold text-[var(--text-primary)] mb-6">My Bookings</h2>
             <div class="mb-6 border-b border-gray-700">
                 <div class="flex space-x-8">
-                    <a class="pb-3 px-1 text-[var(--primary-color)] border-b-2 border-[var(--primary-color)] font-semibold text-base"
-                       href="#">Upcoming</a>
-                    <a class="pb-3 px-1 text-[var(--text-secondary)] hover:text-[var(--primary-color)] border-b-2 border-transparent hover:border-[var(--primary-color)] transition-colors duration-200 ease-in-out text-base"
-                       href="#">Past</a>
+                    <a data-tab="upcoming"
+                        class="pb-3 px-1 text-[var(--primary-color)] border-b-2 border-[var(--primary-color)] font-semibold text-base"
+                        href="#">Upcoming</a>
+                    <a data-tab="past"
+                        class="pb-3 px-1 text-[var(--text-secondary)] border-b-2 border-transparent hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition-colors duration-200 ease-in-out text-base"
+                        href="#">Past</a>
                 </div>
             </div>
-            <div class="space-y-4">
-                <div class="bg-gray-800 rounded-lg shadow-md border border-gray-700 overflow-hidden">
-                    <div class="p-6">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center">
-                            <div>
-                                <p class="text-sm text-[var(--text-secondary)]">2024-03-15, 10:00 AM</p>
-                                <h3 class="text-xl font-semibold text-[var(--text-primary)] mt-1">Downtown to
-                                    Airport</h3>
-                                <p class="text-sm text-[var(--text-secondary)] mt-1">Booking ID: 123456789</p>
-                            </div>
-                            <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0">
-                                    <span
-                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white">
-                                        Confirmed
+            <div th:if="${notLoggedIn}">
+                <p class="text-center text-lg text-red-400 font-semibold">
+                    You need to log in to see your bookings.
+                </p>
+            </div>
+
+            <div th:unless="${notLoggedIn}">
+
+                <!-- UPCOMING BOOKINGS -->
+                <div data-section="upcoming" id="upcoming" class="space-y-4">
+                    <h3 class="text-xl font-bold mb-2">Upcoming Bookings</h3>
+                    <div th:if="${#lists.isEmpty(upcomingBookings)}">
+                        <p class="text-gray-400">No upcoming bookings found.</p>
+                    </div>
+                    <div th:each="booking : ${upcomingBookings}"
+                        class="bg-gray-800 rounded-lg shadow-md border border-gray-700 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center">
+                                <div>
+                                    <p class="text-sm text-[var(--text-secondary)]"
+                                        th:text="${booking.route.date} + ', ' + ${booking.route.pickupTime}">
+                                    </p>
+
+                                    <h3 class="text-xl font-semibold text-[var(--text-primary)] mt-1"
+                                        th:text="${booking.route.origin} + ' → ' + ${booking.route.destination}"></h3>
+
+                                    <p class="text-sm text-[var(--text-secondary)] mt-1"
+                                        th:text="'Booking ID: ' + ${booking.id}"></p>
+                                    <p class="text-sm text-[var(--text-secondary)] mt-1"
+                                        th:text="'Bus Name: '+ ${booking.route.bus.busName}"></p>
+                                    <p class="text-sm text-[var(--text-secondary)] mt-1"
+                                        th:text="'Bus Number: ' + ${booking.route.bus.busNumber}"></p>
+                                    <div class="mt-2">
+                                        <span class="text-sm text-[var(--text-secondary)] font-medium">Seats:</span>
+                                        <div class="flex flex-wrap gap-2 mt-1">
+                                            <span th:each="seat : ${booking.seatNumbers}"
+                                                class="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--primary-color)] text-[var(--background-color)] shadow">
+                                                <span th:text="${seat}"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0">
+                                    <span th:classappend="${booking.route.bus.busType == 'AC'} ? 'bg-green-500 text-green-100' :
+                               (booking.route.bus.busType == 'Non-AC' ? 'bg-yellow-500 text-yellow-100' : '')"
+                                        class="px-3 py-1 text-xs font-semibold leading-5 rounded-full"
+                                        th:text="${booking.route.bus.busType}">
+                                        Status
                                     </span>
+                                    <span
+                                        th:classappend="${booking.status == 'CONFIRMED'} ? 'bg-blue-600 text-white' :
+                                                      (${booking.status == 'CANCELLED'} ? 'bg-red-600 text-white' : '')"
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
+                                        th:text="${booking.status}">
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mt-6 pt-4 border-t border-gray-700 flex items-center justify-end gap-3">
-                            <button
-                                    class="px-4 py-2 border border-[var(--primary-color)] text-[var(--primary-color)] text-sm font-medium rounded-md hover:bg-[var(--primary-color)] hover:text-[var(--background-color)] transition-colors duration-200">
-                                Cancel Booking
-                            </button>
-                            <button
+
+                            <div class="mt-6 pt-4 border-t border-gray-700 flex items-center justify-end gap-3">
+                                <!-- Cancel button only if NOT cancelled -->
+                                <form th:if="${booking.status != 'CANCELLED'}"
+                                    th:action="@{/v1/my-booking/{id}/cancel(id=${booking.id})}" method="post"
+                                    class="inline">
+                                    <button type="submit"
+                                        class="px-4 py-2 border border-[var(--primary-color)] text-[var(--primary-color)] text-sm font-medium rounded-md hover:bg-[var(--primary-color)] hover:text-[var(--background-color)] transition-colors duration-200">
+                                        Cancel Booking
+                                    </button>
+                                </form>
+
+                                <!-- View Ticket only if NOT cancelled -->
+                                <a th:if="${booking.status != 'CANCELLED'}"
+                                    th:href="@{/v1/ticket/{id}(id=${booking.id})}"
                                     class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-[var(--background-color)] bg-[var(--primary-color)] hover:bg-[var(--accent-color)]">
-                                View Ticket
-                            </button>
+                                    View Ticket
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-800 rounded-lg shadow-md border border-gray-700 overflow-hidden">
-                    <div class="p-6">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center">
-                            <div>
-                                <p class="text-sm text-[var(--text-secondary)]">2024-03-16, 2:00 PM</p>
-                                <h3 class="text-xl font-semibold text-[var(--text-primary)] mt-1">Airport to
-                                    Suburbia</h3>
-                                <p class="text-sm text-[var(--text-secondary)] mt-1">Booking ID: 987654321</p>
-                            </div>
-                            <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0">
-                                    <span
-                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white">
-                                        Confirmed
-                                    </span>
-                            </div>
-                        </div>
-                        <div class="mt-6 pt-4 border-t border-gray-700 flex items-center justify-end gap-3">
-                            <button
-                                    class="px-4 py-2 border border-[var(--primary-color)] text-[var(--primary-color)] text-sm font-medium rounded-md hover:bg-[var(--primary-color)] hover:text-[var(--background-color)] transition-colors duration-200">
-                                Cancel Booking
-                            </button>
-                            <button
-                                    class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-[var(--background-color)] bg-[var(--primary-color)] hover:bg-[var(--accent-color)]">
-                                View Ticket
-                            </button>
-                        </div>
+
+                <!-- PAST BOOKINGS -->
+                <div data-section="past" id="past" class="space-y-4 mt-8">
+                    <h3 class="text-xl font-bold mb-2">Past Bookings</h3>
+                    <div th:if="${#lists.isEmpty(pastBookings)}">
+                        <p class="text-gray-400">No past bookings found.</p>
                     </div>
-                </div>
-                <div class="bg-gray-800 rounded-lg shadow-md border border-gray-700 overflow-hidden">
-                    <div class="p-6">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center">
-                            <div>
-                                <p class="text-sm text-[var(--text-secondary)]">2024-03-17, 5:00 PM</p>
-                                <h3 class="text-xl font-semibold text-[var(--text-primary)] mt-1">Suburbia to
-                                    Downtown</h3>
-                                <p class="text-sm text-[var(--text-secondary)] mt-1">Booking ID: 112233445</p>
-                            </div>
-                            <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0">
-                                    <span
-                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-600 text-white">
-                                        Cancelled
+                    <div th:each="booking : ${pastBookings}"
+                        class="bg-gray-800 rounded-lg shadow-md border border-gray-700 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center">
+                                <div>
+                                    <p class="text-sm text-[var(--text-secondary)]"
+                                        th:text="${booking.route.date} + ', ' + ${booking.route.pickupTime}">
+                                    </p>
+
+                                    <h3 class="text-xl font-semibold text-[var(--text-primary)] mt-1"
+                                        th:text="${booking.route.origin} + ' → ' + ${booking.route.destination}"></h3>
+
+                                    <p class="text-sm text-[var(--text-secondary)] mt-1"
+                                        th:text="'Booking ID: ' + ${booking.id}"></p>
+                                    <p class="text-sm text-[var(--text-secondary)] mt-1"
+                                        th:text="'Bus Name: '+ ${booking.route.bus.busName}"></p>
+                                    <p class="text-sm text-[var(--text-secondary)] mt-1"
+                                        th:text="'Bus Number: ' + ${booking.route.bus.busNumber}"></p>
+                                    <div class="mt-2">
+                                        <span class="text-sm text-[var(--text-secondary)] font-medium">Seats:</span>
+                                        <div class="flex flex-wrap gap-2 mt-1">
+                                            <span th:each="seat : ${booking.seatNumbers}"
+                                                class="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--primary-color)] text-[var(--background-color)] shadow">
+                                                <span th:text="${seat}"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0">
+                                    <span th:classappend="${booking.route.bus.busType == 'AC'} ? 'bg-green-500 text-green-100' :
+                               (booking.route.bus.busType == 'Non-AC' ? 'bg-yellow-500 text-yellow-100' : '')"
+                                        class="px-3 py-1 text-xs font-semibold leading-5 rounded-full"
+                                        th:text="${booking.route.bus.busType}">
+                                        Status
                                     </span>
+                                    <span
+                                        th:classappend="${booking.status == 'CONFIRMED'} ? 'bg-blue-600 text-white' :
+                                                      (${booking.status == 'CANCELLED'} ? 'bg-red-600 text-white' : '')"
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
+                                        th:text="${booking.status}">
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mt-6 pt-4 border-t border-gray-700 flex items-center justify-end">
-                            <button
-                                    class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-[var(--background-color)] bg-[var(--primary-color)] hover:bg-[var(--accent-color)]"
-                                    disabled="">
-                                View Ticket
-                            </button>
+
+                            <div class="mt-6 pt-4 border-t border-gray-700 flex items-center justify-end gap-3">
+                                <!-- View Ticket button -->
+                                <a th:if="${booking.status != 'CANCELLED'}"
+                                    th:href="@{/v1/ticket/{id}(id=${booking.id})}"
+                                    class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-[var(--background-color)] bg-[var(--primary-color)] hover:bg-[var(--accent-color)]">
+                                    View Ticket
+                                </a>
+
+                                <button th:if="${booking.status == 'CANCELLED'}"
+                                    class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-400 bg-gray-600 opacity-50 cursor-not-allowed"
+                                    disabled>
+                                    View Ticket
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
+</th:block>
+<th:block layout:fragment="page-script">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabs = document.querySelectorAll("[data-tab]");
+            const sections = document.querySelectorAll("[data-section]");
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function (e) {
+                    e.preventDefault();
+
+                    // Remove active style from all tabs
+                    tabs.forEach(t => t.classList.remove("text-[var(--primary-color)]", "border-[var(--primary-color)]"));
+                    tabs.forEach(t => t.classList.add("text-[var(--text-secondary)]", "border-transparent"));
+
+                    // Hide all sections
+                    sections.forEach(sec => sec.classList.add("hidden"));
+
+                    // Activate clicked tab
+                    this.classList.remove("text-[var(--text-secondary)]", "border-transparent");
+                    this.classList.add("text-[var(--primary-color)]", "border-[var(--primary-color)]");
+
+                    // Show related section
+                    const target = this.getAttribute("data-tab");
+                    document.querySelector(`[data-section='${target}']`).classList.remove("hidden");
+                });
+            });
+        });
+    </script>
 </th:block>
 
 </html>

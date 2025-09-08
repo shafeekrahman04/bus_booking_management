@@ -14,11 +14,5 @@ public class PublicAppController {
         return PUBLIC_PATH + "index";
     }
 
-    @GetMapping("/my-booking")
-    public String myBooking() {
-        return PUBLIC_PATH + "my-booking";
-    }
-
-
 
 }
