@@ -1,8 +1,8 @@
 package com.bus.booking.management.model;
 
-import javax.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,20 +24,25 @@ public class Bookings {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private AppUser user;
-    @Column(name = "USER_ID")
-    private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROUTE_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private Routes route;
-    @Column(name = "ROUTE_ID")
-    private Long routeId;
 
     @Column(name = "TOTAL_PRICE")
     private BigDecimal totalPrice;
 
+    @Column(name = "CustomerName")
+    private String customerName;
+
+    @Column(name = "CustomerMobile")
+    private String customerMobile;
+
     @Column(name = "BOOKING_DATE")
     private LocalDate bookingDate;
+
+    @Column(name = "SEAT_NUMBER")
+    private String seatNumber;
 
     @Column(name = "STATUS")
     private String status;

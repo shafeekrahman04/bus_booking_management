@@ -16,8 +16,6 @@ public class BookingMapper {
     public BookingForm remap(Bookings bookings) {
         BookingForm bookingsForm = new BookingForm();
         bookingsForm.setId(String.valueOf(bookings.getId()));
-        bookingsForm.setUserId(String.valueOf(bookings.getUserId()));
-        bookingsForm.setRouteId(String.valueOf(bookings.getRouteId()));
         bookingsForm.setTotalPrice(bookings.getTotalPrice() != null ? bookings.getTotalPrice().toString() : null);
         bookingsForm.setStatus(bookings.getStatus());
         bookingsForm.setBookingDate(bookings.getBookingDate() != null ? bookings.getBookingDate().toString() : null);
