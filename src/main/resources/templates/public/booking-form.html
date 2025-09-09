@@ -80,22 +80,46 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- ✅ Confirm Button inside form -->
-                    <button type="submit" class="w-full mt-8 bg-[var(--primary-color)] text-white py-3 px-4 rounded-lg
+                    <!-- Booking Action Buttons -->
+                    <div class="flex gap-4 mt-6">
+                        <!-- If user is logged in -->
+                        <th:block th:if="${#authentication.principal != 'anonymousUser'}">
+                            <button type="submit" class="w-full mt-8 bg-[var(--primary-color)] text-white py-3 px-4 rounded-lg
                    hover:bg-[var(--secondary-color)] focus:outline-none
                    focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50
                    transition-all duration-300 font-bold text-lg transform hover:scale-105">
-                        Confirm &amp; Book
-                    </button>
+                                Confirm & Book
+                            </button>
+                        </th:block>
+
+                        <!-- If user is not logged in -->
+                        <th:block th:unless="${#authentication.principal != 'anonymousUser'}">
+                            <a th:href="@{/v1/signup}" class="w-full mt-8 bg-[var(--primary-color)] text-white py-3 px-4 rounded-lg
+                   hover:bg-[var(--secondary-color)] focus:outline-none
+                   focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50
+                   transition-all duration-300 font-bold text-lg transform hover:scale-105">
+                                Sign Up
+                            </a>
+                            <a th:href="@{/v1/login}"
+                                class="w-full mt-8 text-white py-3 px-4 rounded-lg
+                   hover:bg-[var(--secondary-color)] focus:outline-none
+                   focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50
+                   transition-all duration-300 font-bold text-lg transform hover:scale-105 bg-transparent border border-[var(--primary-color)]">
+                                Login
+                            </a>
+                        </th:block>
+                    </div>
+
                 </form>
 
             </div>
+            <!-- Booking Summary -->
             <div
                 class="bg-[var(--surface-color)] p-8 rounded-2xl shadow-2xl border border-[var(--border-color)] h-fit sticky top-24">
                 <h3
                     class="text-2xl font-bold text-[var(--text-primary)] mb-6 border-b border-[var(--border-color)] pb-4">
-                    Booking Summary</h3>
+                    Booking Summary
+                </h3>
                 <div class="space-y-4 text-sm">
                     <div class="flex justify-between">
                         <span class="text-[var(--text-secondary)]">Route:</span>
@@ -119,11 +143,78 @@
                     <div class="border-t border-[var(--border-color)] my-6"></div>
                     <div class="flex justify-between text-lg">
                         <span class="font-bold text-[var(--text-primary)]">Total Cost:</span>
-                        <span id="totalCost" class="font-bold text-[var(--primary-color)]  text-2xl"
+                        <span id="totalCost" class="font-bold text-[var(--primary-color)] text-2xl"
                             th:text="'₹' + ${route.pricePerSeat}">$45.00</span>
                     </div>
                 </div>
+
+                <!-- Payment Details -->
+                <div class="mt-8">
+                    <div class="border-t border-[var(--border-color)] my-6"></div>
+
+                    <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Payment Details</h3>
+
+                    <!-- Payment Method Selection -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2">Select Payment
+                            Method</label>
+                        <select id="paymentMethod" name="paymentMethod"
+                            class="w-full p-3 rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                            <option value="card">Credit / Debit Card</option>
+                            <option value="upi">UPI</option>
+                        </select>
+                    </div>
+
+                    <!-- Card Payment Form -->
+                    <div id="cardPayment" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="cardName">
+                                Cardholder Name
+                            </label>
+                            <input id="cardName" name="cardName" type="text" placeholder="John Doe"
+                                class="w-full p-3 rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="cardNumber">
+                                Card Number
+                            </label>
+                            <input id="cardNumber" name="cardNumber" type="text" maxlength="16"
+                                placeholder="1234 5678 9012 3456"
+                                class="w-full p-3 rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="expiry">
+                                    Expiry Date
+                                </label>
+                                <input id="expiry" name="expiry" type="text" placeholder="MM/YY"
+                                    class="w-full p-3 rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="cvv">
+                                    CVV
+                                </label>
+                                <input id="cvv" name="cvv" type="password" maxlength="3" placeholder="123"
+                                    class="w-full p-3 rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UPI Payment Form -->
+                    <div id="upiPayment" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2" for="upiId">
+                                UPI ID
+                            </label>
+                            <input id="upiId" name="upiId" type="text" placeholder="example@upi"
+                                class="w-full p-3 rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
+
         </div>
     </main>
 </th:block>
@@ -172,6 +263,8 @@
                 validateSeats(event);
                 validateRequired("customerName", "Please enter your full name", event);
                 validateMobile("customerMobile", "Please enter a valid mobile number", event);
+                validatePayment(event);
+
             });
 
             function clearErrorMessages() {
@@ -226,6 +319,71 @@
                     errorMessages.forEach(error => error.remove());
                 });
             });
+
+            function validatePayment(event) {
+                const method = document.getElementById("paymentMethod").value;
+
+                if (method === "card") {
+                    validateRequired("cardName", "Please enter the cardholder name", event);
+                    validateCardNumber("cardNumber", "Please enter a valid 16-digit card number", event);
+                    validateExpiry("expiry", "Please enter a valid expiry date (MM/YY)", event);
+                    validateCVV("cvv", "Please enter a valid 3-digit CVV", event);
+                }
+
+                if (method === "upi") {
+                    validateUPI("upiId", "Please enter a valid UPI ID (e.g. example@upi)", event);
+                }
+            }
+
+            function validateCardNumber(fieldId, errorMessage, event) {
+                const value = document.getElementById(fieldId).value.trim();
+                const cardRegex = /^\d{16}$/;
+                if (!cardRegex.test(value)) {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                }
+            }
+
+            function validateExpiry(fieldId, errorMessage, event) {
+                const value = document.getElementById(fieldId).value.trim();
+                const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; // MM/YY format
+                if (!expiryRegex.test(value)) {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                    return;
+                }
+
+                // Optional: Check if date is expired
+                const [month, year] = value.split("/");
+                const expiryDate = new Date(`20${year}`, month); // first day of next month
+                const now = new Date();
+                if (expiryDate < now) {
+                    appendErrorMessage(fieldId, "Card has expired", event);
+                }
+            }
+
+            function validateCVV(fieldId, errorMessage, event) {
+                const value = document.getElementById(fieldId).value.trim();
+                const cvvRegex = /^\d{3}$/;
+                if (!cvvRegex.test(value)) {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                }
+            }
+
+            function validateUPI(fieldId, errorMessage, event) {
+                const value = document.getElementById(fieldId).value.trim();
+                const upiRegex = /^[\w.-]+@[a-zA-Z]{3,}$/; // e.g. name@upi / user@paytm
+                if (!upiRegex.test(value)) {
+                    appendErrorMessage(fieldId, errorMessage, event);
+                }
+            }
+        });
+    </script>
+
+    <script>
+        // Toggle payment form visibility
+        document.getElementById("paymentMethod").addEventListener("change", function () {
+            const method = this.value;
+            document.getElementById("cardPayment").classList.toggle("hidden", method !== "card");
+            document.getElementById("upiPayment").classList.toggle("hidden", method !== "upi");
         });
     </script>
 </th:block>
