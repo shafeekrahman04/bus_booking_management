@@ -18,6 +18,8 @@
                     <!-- Route Info -->
                     <div class="p-4 bg-gray-700 rounded-lg mb-6">
                         <p class="text-lg font-semibold" th:text="${route.origin} + ' → ' + ${route.destination}"></p>
+                        <p class="text-sm text-gray-400"
+                            th:text="${route.bus.busName} + ' — ' + ${route.bus.busNumber} "></p>
                         <p class="text-sm text-gray-400" th:text="${route.pickupTime} + ' — ' + ${route.dropTime}"></p>
                         <p class="text-sm text-gray-400" th:text="'₹' + ${route.pricePerSeat} + ' per seat'"></p>
                         <p class="text-sm text-gray-400" th:text="'Total seats: ' + ${route.bus.capacity}"></p>
@@ -37,8 +39,7 @@
                                         th:disabled="${bookedSeats.contains(seat)}" />
 
                                     <!-- seat label -->
-                                    <span th:text="${seat}"
-                                        class="seat-label block w-full h-full pointer-events-none"></span>
+                                    <span th:text="${seat}" class="seat-label block w-full h-full"></span>
                                 </div>
                             </div>
                         </div>
@@ -386,6 +387,140 @@
             document.getElementById("upiPayment").classList.toggle("hidden", method !== "upi");
         });
     </script>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            const synth = window.speechSynthesis;
+            const checkboxes = document.querySelectorAll(".seat-checkbox");
+            const seatLabel = document.getElementById("selectedSeats");
+            const totalCost = document.getElementById("totalCost");
+            const pricePerSeat = /*[[${route.pricePerSeat}]]*/ 0;
+
+            // ----------- Speech functions -----------
+            function getVoicesSafe() {
+                return new Promise(resolve => {
+                    let voices = speechSynthesis.getVoices();
+                    if (voices.length) resolve(voices);
+                    else {
+                        window.speechSynthesis.onvoiceschanged = () => {
+                            resolve(speechSynthesis.getVoices());
+                        };
+                    }
+                });
+            }
+
+            function pickVoice(preferredNameHint, voices) {
+                if (!voices.length) return null;
+                if (preferredNameHint) {
+                    const exact = voices.find(v => v.name && v.name.includes(preferredNameHint));
+                    if (exact) return exact;
+                }
+                const englishVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith("en"));
+                return englishVoices.length ? englishVoices[0] : voices[0];
+            }
+
+            const PREFERRED_VOICE_NAME = "Google UK English Female";
+
+            async function speak(text, opts = {}) {
+                if (!text || !("speechSynthesis" in window)) return;
+                const { rate = 0.95, pitch = 1, volume = 1 } = opts;
+                if (synth.speaking) synth.cancel();
+
+                const u = new SpeechSynthesisUtterance(text);
+                u.rate = rate; u.pitch = pitch; u.volume = volume;
+                const voices = await getVoicesSafe();
+                console.log("Voices:", voices.map(v => v.name));  // 👈 check what’s available
+                const voice = pickVoice(PREFERRED_VOICE_NAME, voices);
+                if (voice) u.voice = voice;
+                synth.speak(u);
+            }
+
+            // ----------- Seat selection summary -----------
+            function updateSummary() {
+                const selected = Array.from(checkboxes)
+                    .filter(ch => ch.checked)
+                    .map(ch => ch.value);
+
+                seatLabel.textContent = selected.length > 0 ? selected.join(", ") : "None";
+                totalCost.textContent = selected.length > 0 ? "₹" + (selected.length * pricePerSeat) : "₹0";
+            }
+
+            function announceSelection() {
+                const selected = Array.from(document.querySelectorAll(".seat-checkbox:checked"))
+                    .map(cb => cb.value);
+
+                if (selected.length === 0) {
+                    speak("No seats selected");
+                    return;
+                }
+
+                const seatList = selected.join(", ");
+                const total = selected.length * pricePerSeat;
+                speak(`You have selected seats ${seatList}. Total amount is ₹${total}`);
+            }
+
+            document.querySelectorAll(".seat").forEach((seatEl, idx) => {
+                const cb = seatEl.querySelector(".seat-checkbox");
+                const seatNum = seatEl.querySelector(".seat-label")?.innerText.trim() || (idx + 1);
+
+                // Accessibility
+                seatEl.setAttribute("tabindex", "0");
+                seatEl.setAttribute("role", "button");
+                seatEl.setAttribute("aria-label", `Seat ${seatNum}`);
+
+                const isUnavailable = () => cb.disabled || seatEl.classList.contains("seat-unavailable");
+
+                // Change → update summary + speak selection
+                cb.addEventListener("change", () => {
+                    seatEl.classList.toggle("seat-selected", cb.checked);
+                    updateSummary();
+                    announceSelection();
+                });
+
+                // Hover & focus handler
+                const announceSeat = () => {
+                    if (synth.speaking) synth.cancel();
+                    if (isUnavailable()) {
+                        speak(`Seat ${seatNum} is unavailable`);
+                    } else {
+                        speak(`Seat ${seatNum}, Price ₹${pricePerSeat}`);
+                    }
+                };
+
+                // Attach hover to parent div
+                seatEl.addEventListener("mouseenter", announceSeat);
+
+                // Attach hover to the label inside
+                const label = seatEl.querySelector(".seat-label");
+                if (label) label.addEventListener("mouseenter", announceSeat);
+
+                // Keyboard focus
+                seatEl.addEventListener("focus", announceSeat);
+
+                // Keyboard Enter/Space → toggle only if available
+                seatEl.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        if (isUnavailable()) {
+                            speak(`Seat ${seatNum} is booked and unavailable`);
+                        } else {
+                            cb.checked = !cb.checked;
+                            cb.dispatchEvent(new Event("change", { bubbles: true }));
+                        }
+                    }
+                });
+
+                // Blur → stop speech
+                seatEl.addEventListener("blur", () => {
+                    if (synth.speaking) synth.cancel();
+                });
+            });
+
+
+            // Initialize
+            updateSummary();
+        });
+    </script>
+
 </th:block>
 
 </html>
